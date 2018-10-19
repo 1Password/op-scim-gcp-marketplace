@@ -1,0 +1,113 @@
+---
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: $APP_INSTANCE_NAME-op-scim-bridge
+  labels: &ScimDeploymentLabels
+    app.kubernetes.io/name: $APP_INSTANCE_NAME
+    app.kubernetes.io/component: op-scim-bridge-server
+spec:
+  selector:
+    matchLabels: *ScimDeploymentLabels
+  updateStrategy:
+    type: RollingUpdate
+  serviceName: $APP_INSTANCE_NAME-op-scim-bridge-svc
+  replicas: $REPLICAS
+  volumeClaimTemplates:
+  - metadata:
+      name: $APP_INSTANCE_NAME-op-scim-bridge-pvc
+      labels: *ScimDeploymentLabels
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: standard
+      resources:
+        requests:
+          storage: 1Gi
+  template:
+    metadata:
+      labels: *ScimDeploymentLabels
+    spec:
+      containers:
+      - name: op-scim-bridge
+        image: $IMAGE_SCIM_BRIDGE
+        imagePullPolicy: Always
+        env:
+        - name: OP_ACCOUNT_DOMAIN
+          valueFrom:
+            secretKeyRef:
+              name: $APP_INSTANCE_NAME-op-scim-bridge-secret
+              key: op-domain
+        ports:
+        - name: op-scim-bridge-http
+          containerPort: 80
+          protocol: TCP
+        - name: op-scim-bridge-https
+          containerPort: 443
+          protocol: TCP
+        livenessProbe:
+          tcpSocket:
+            path: /ping
+            port: op-scim-bridge-http
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: op-scim-bridge-http
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: scimsession
+          mountPath: /secret
+          readOnly: false
+      volumes:
+      - name: scimsession
+        secret:
+          secretName: scimsession
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: $APP_INSTANCE_NAME-op-scim-bridge-secret
+  labels:
+    app.kubernetes.io/name: "$APP_INSTANCE_NAME"
+    app.kubernetes.io/component: op-scim-bridge-server
+stringData:
+  op-domain: $OP_ACCOUNT_DOMAIN
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $APP_INSTANCE_NAME-redis-svc
+  labels:
+    app.kubernetes.io/name: "$APP_INSTANCE_NAME"
+    app.kubernetes.io/component: op-scim-bridge-redis
+spec:
+  ports:
+  - name: redis
+    port: 6379
+  selector:
+    app.kubernetes.io/name: $APP_INSTANCE_NAME
+    app.kubernetes.io/component: op-scim-bridge-redis
+  clusterIP: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $APP_INSTANCE_NAME-op-scim-bridge-svc
+  labels:
+    app.kubernetes.io/name: "$APP_INSTANCE_NAME"
+    app.kubernetes.io/component: op-scim-bridge-server
+spec:
+  ports:
+  - name: scim-bridge-http-port
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: scim-bridge-https-port
+    port: 443
+    protocol: TCP
+    targetPort: 8443
+  selector:
+    app.kubernetes.io/name: "$APP_INSTANCE_NAME"
+    app.kubernetes.io/component: op-scim-bridge-server
+  type: LoadBalancer

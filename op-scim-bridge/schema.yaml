@@ -1,0 +1,33 @@
+application_api_version: v1beta1
+properties:
+  APP_INSTANCE_NAME:
+    type: string
+    x-google-marketplace:
+      type: NAME
+  NAMESPACE:
+    type: string
+    x-google-marketplace:
+      type: NAMESPACE
+  IMAGE_SCIM_BRIDGE:
+    type: string
+    default: $REGISTRY:$TAG
+    x-google-marketplace:
+      type: IMAGE
+  IMAGE_REDIS:
+    type: string
+    default: $REGISTRY/redis:$TAG
+    x-google-marketplace:
+      type: IMAGE
+  OP_ACCOUNT_DOMAIN:
+    title: 1Password Account Domain
+    description: >-
+      Name of the 1Password account domain, e.g. "mycompany.1password.com"
+      SCIM bridge will be authorized to communicate with this domain only.
+    type: string
+    default: mycompany.1password.com
+required:
+- APP_INSTANCE_NAME
+- NAMESPACE
+- IMAGE_SCIM_BRIDGE
+- IMAGE_REDIS
+- OP_ACCOUNT_DOMAIN
