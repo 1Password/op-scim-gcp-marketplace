@@ -21,6 +21,7 @@ spec:
       # Support
       1Password support is available on
       [1Password support](https://support.1password.com).
+
       Additional SCIM bridge support is available on
       [1Password forums](https://discussions.agilebits.com/categories/scim).
     maintainers:
@@ -32,8 +33,8 @@ spec:
     notes: |-
       # Initial setup
 
-      After accessing the SCIM bridge main page, you will see the configuration wizard.
-      Follow the instructions presented on the screen to finish the process.
+      After deploying the SCIM bridge, visit the external IP to the left in your browser to complete the setup process.
+      Ensure that a DNS record has been created to connect your domain to the IP address before attempting setup.
   info:
   - name: 1Password SCIM bridge external IP
     type: Reference

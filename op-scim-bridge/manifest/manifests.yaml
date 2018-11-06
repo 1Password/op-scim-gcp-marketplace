@@ -1,19 +1,4 @@
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: $APP_INSTANCE_NAME-op-scim-bridge-pvc
-  labels:
-    app.kubernetes.io/name: $APP_INSTANCE_NAME
-    app.kubernetes.io/component: op-scim-bridge-server
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: standard
----
+
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -35,7 +20,9 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 6379
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -51,17 +38,9 @@ spec:
     app.kubernetes.io/name: $APP_INSTANCE_NAME
     app.kubernetes.io/component: op-scim-bridge-redis
   clusterIP: None
+
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: $APP_INSTANCE_NAME-op-scim-bridge-secret
-  labels:
-    app.kubernetes.io/name: "$APP_INSTANCE_NAME"
-    app.kubernetes.io/component: op-scim-bridge-server
-stringData:
-  op-domain: $OP_ACCOUNT_DOMAIN
----
+
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -73,45 +52,54 @@ spec:
   selector:
     matchLabels: *ScimDeploymentLabels
   replicas: 1
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels: *ScimDeploymentLabels
     spec:
       containers:
       - name: op-scim-bridge
-        image: $IMAGE_SCIM_BRIDGE
+        # image: $IMAGE_SCIM_BRIDGE
+        image: us.gcr.io/b5-playground/op-scim:webapp
         imagePullPolicy: Always
         command: ["/op-scim/op-scim"]
-        args: ["--redis-host=$APP_INSTANCE_NAME-redis-svc"]
+        args: ["--redis-host=$APP_INSTANCE_NAME-redis-svc", --session=/secret/scimsession]
         env:
         - name: OP_ACCOUNT_DOMAIN
           valueFrom:
             secretKeyRef:
               name: $APP_INSTANCE_NAME-op-scim-bridge-secret
               key: op-domain
+        - name: "update"
+          value: "1"
         ports:
-        - containerPort: 3002
+        - containerPort: 8080
+        - containerPort: 8443
         volumeMounts:
-        - name: $APP_INSTANCE_NAME-op-scim-bridge-pvc
+        - name: $APP_INSTANCE_NAME-scimsession
           mountPath: "/secret"
           readOnly: false
-        readinessProbe:
-          httpGet:
-            path: /ping
-            port: 3002
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
-        livenessProbe:
-          httpGet:
-            path: /ping
-            port: 3002
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
+        # NOTE: we can't do a readiness/liveness probe at this time since k8s can't hit the TLS port
+        # readinessProbe:
+        #   httpGet:
+        #     path: /ping
+        #     port: 8080
+        #   initialDelaySeconds: 10
+        #   timeoutSeconds: 5
+        # livenessProbe:
+        #   httpGet:
+        #     path: /ping
+        #     port: 8080
+        #   initialDelaySeconds: 10
+        #   timeoutSeconds: 5
       volumes:
-      - name: $APP_INSTANCE_NAME-op-scim-bridge-pvc
+      - name: $APP_INSTANCE_NAME-scimsession
         persistentVolumeClaim:
           claimName: $APP_INSTANCE_NAME-op-scim-bridge-pvc
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -122,14 +110,43 @@ metadata:
 spec:
   ports:
   - name: http
-    port: 3002
+    port: 80
     protocol: TCP
-    targetPort: 3002
-  # - name: scim-bridge-https-port
-  #   port: 443
-  #   protocol: TCP
-  #   targetPort: 8443
+    targetPort: 8080
+  - name: scim-bridge-https-port
+    port: 443
+    protocol: TCP
+    targetPort: 8443
   selector:
     app.kubernetes.io/name: "$APP_INSTANCE_NAME"
     app.kubernetes.io/component: op-scim-bridge-server
   type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: $APP_INSTANCE_NAME-op-scim-bridge-pvc
+  labels:
+    app.kubernetes.io/name: $APP_INSTANCE_NAME
+    app.kubernetes.io/component: op-scim-bridge-server
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: $APP_INSTANCE_NAME-op-scim-bridge-secret
+  labels:
+    app.kubernetes.io/name: "$APP_INSTANCE_NAME"
+    app.kubernetes.io/component: op-scim-bridge-server
+stringData:
+  op-domain: $OP_ACCOUNT_DOMAIN
