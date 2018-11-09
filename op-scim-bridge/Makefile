@@ -9,8 +9,8 @@ include ../vendor/marketplace-tools/var.Makefile
 TAG ?= latest
 $(info ---- TAG = $(TAG))
 
-APP_DEPLOYER_IMAGE ?= $(REGISTRY)/agilebits/op-scim-bridge/deployer:$(TAG)
-NAME ?= op-scim-bridge
+APP_DEPLOYER_IMAGE ?= $(REGISTRY)/agilebits/deployer:$(TAG)
+NAME ?= op-scim
 APP_PARAMETERS ?= { \
   "APP_INSTANCE_NAME": "$(NAME)", \
   "NAMESPACE": "$(NAMESPACE)" \
@@ -18,24 +18,24 @@ APP_PARAMETERS ?= { \
 APP_TEST_PARAMETERS ?= {}
 
 
-app/build:: .build/op-scim-bridge/deployer \
-            .build/op-scim-bridge/redis \
-            .build/op-scim-bridge/op-scim-bridge
+app/build:: .build/op-scim/deployer \
+            .build/op-scim/redis \
+            .build/op-scim/op-scim
 
 
-.build/op-scim-bridge: | .build
+.build/op-scim: | .build
 	mkdir -p "$@"
 
 
-.build/op-scim-bridge/deployer: deployer/* \
-                           		manifest/* \
+.build/op-scim/deployer: deployer/* \
+								$(shell find chart -type f) \
                            		schema.yaml \
                            		.build/var/APP_DEPLOYER_IMAGE \
 								.build/var/REGISTRY \
 								.build/var/TAG \
-								| .build/op-scim-bridge
+								| .build/op-scim
 	docker build \
-	    --build-arg REGISTRY="$(REGISTRY)/agilebits/op-scim-bridge" \
+	    --build-arg REGISTRY="$(REGISTRY)/agilebits" \
 	    --build-arg TAG="$(TAG)" \
 	    --tag "$(APP_DEPLOYER_IMAGE)" \
 	    -f deployer/Dockerfile \
@@ -44,21 +44,21 @@ app/build:: .build/op-scim-bridge/deployer \
 	@touch "$@"
 
 
-.build/op-scim-bridge/op-scim-bridge: .build/var/REGISTRY \
-									  .build/var/TAG \
-									  | .build/op-scim-bridge
-	docker pull $(REGISTRY)/agilebits/op-scim-bridge:$(TAG)
-	docker tag $(REGISTRY)/agilebits/op-scim-bridge:$(TAG) \
-	    "$(REGISTRY)/agilebits/op-scim-bridge:$(TAG)"
-	docker push "$(REGISTRY)/agilebits/op-scim-bridge:$(TAG)"
+.build/op-scim/op-scim: .build/var/REGISTRY \
+						.build/var/TAG \
+						| .build/op-scim
+	docker pull $(REGISTRY)/op-scim:webapp
+	docker tag $(REGISTRY)/op-scim:webapp \
+	    "$(REGISTRY)/agilebits/op-scim:$(TAG)"
+	docker push "$(REGISTRY)/agilebits/op-scim:$(TAG)"
 	@touch "$@"
 
 
-.build/op-scim-bridge/redis: .build/var/REGISTRY \
-							 .build/var/TAG \
-							 | .build/op-scim-bridge
+.build/op-scim/redis: .build/var/REGISTRY \
+						.build/var/TAG \
+						| .build/op-scim
 	docker pull gcr.io/cloud-marketplace-containers/google/redis4
 	docker tag gcr.io/cloud-marketplace-containers/google/redis4 \
-	    "$(REGISTRY)/agilebits/op-scim-bridge/redis:$(TAG)"
-	docker push "$(REGISTRY)/agilebits/op-scim-bridge/redis:$(TAG)"
+	    "$(REGISTRY)/agilebits/redis:$(TAG)"
+	docker push "$(REGISTRY)/agilebits/redis:$(TAG)"
 	@touch "$@"
