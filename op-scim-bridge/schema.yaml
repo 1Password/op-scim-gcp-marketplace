@@ -8,7 +8,7 @@ properties:
     type: string
     x-google-marketplace:
       type: NAMESPACE
-  IMAGE_SCIM_BRIDGE:
+  IMAGE_OP_SCIM:
     type: string
     default: $REGISTRY/op-scim:$TAG
     x-google-marketplace:
