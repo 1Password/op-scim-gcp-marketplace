@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
       - name: op-scim-bridge
-        # image: $IMAGE_SCIM_BRIDGE
-        image: us.gcr.io/b5-playground/op-scim:{{ .Values.opScimVersion }}
+        image: {{ .Values.IMAGE_SCIM_BRIDGE }}
         imagePullPolicy: Always
         command: ["/op-scim/op-scim"]
         args: ["--redis-host={{ .Values.APP_INSTANCE_NAME }}-redis-svc", --session={{ .Values.scimsessionPath }}]
