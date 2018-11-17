@@ -10,7 +10,7 @@ properties:
       type: NAMESPACE
   IMAGE_OP_SCIM:
     type: string
-    default: $REGISTRY/op-scim:$TAG
+    default: $REGISTRY:$TAG
     x-google-marketplace:
       type: IMAGE
   IMAGE_REDIS:

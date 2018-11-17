@@ -1,9 +1,9 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-redis
+  name: {{ .Values.APP_INSTANCE_NAME }}-redis
   labels: &RedisDeploymentLabels
-    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ .Values.APP_INSTANCE_NAME }}
     app.kubernetes.io/component: op-scim-bridge-redis
 spec:
   selector:
@@ -25,15 +25,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-redis-svc
+  name: {{ .Values.APP_INSTANCE_NAME }}-redis-svc
   labels:
-    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ .Values.APP_INSTANCE_NAME }}
     app.kubernetes.io/component: op-scim-bridge-redis
 spec:
   ports:
   - name: redis
     port: 6379
   selector:
-    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ .Values.APP_INSTANCE_NAME }}
     app.kubernetes.io/component: op-scim-bridge-redis
   clusterIP: None

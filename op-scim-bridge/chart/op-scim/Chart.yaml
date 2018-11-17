@@ -1,5 +1,5 @@
 apiVersion: v1
-name: op-scim
+name: op-scim-bridge
 version: 0.1
 description: The 1Password SCIM bridge
 keywords:
