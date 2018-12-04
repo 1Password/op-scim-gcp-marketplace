@@ -19,15 +19,14 @@ properties:
     x-google-marketplace:
       type: IMAGE
   OP_ACCOUNT_DOMAIN:
-    title: 1Password Account Domain
+    title: 1Password sign-in address
     description: >-
-      Name of the 1Password account domain, e.g. "mycompany.1password.com"
-      SCIM bridge will be authorized to communicate with this domain only.
+      "Your 1Password sign-in address. For example: example.1password.com"
     type: string
-    default: mycompany.1password.com
+    default: example.1password.com
 required:
 - APP_INSTANCE_NAME
 - NAMESPACE
-- IMAGE_SCIM_BRIDGE
+- IMAGE_OP_SCIM
 - IMAGE_REDIS
 - OP_ACCOUNT_DOMAIN

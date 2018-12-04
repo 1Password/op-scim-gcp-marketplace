@@ -47,12 +47,10 @@ app/build:: .build/op-scim/deployer \
 .build/op-scim/op-scim-bridge: .build/var/REGISTRY \
 							   .build/var/TAG \
 							   | .build/op-scim
-	docker pull gcr.io/op-scim-bridge/op-scim-bridge:webapp
-	docker tag gcr.io/op-scim-bridge/op-scim-bridge:webapp \
-	    "$(REGISTRY)/op-scim-bridge:$(TAG)"
+	# docker pull gcr.io/op-scim-bridge/op-scim-bridge:webapp
+	docker tag op-scim "$(REGISTRY)/op-scim-bridge:$(TAG)"
 	docker push "$(REGISTRY)/op-scim-bridge:$(TAG)"
 	@touch "$@"
-    # image: us.gcr.io/b5-playground/op-scim:webapp
 
 
 .build/op-scim/redis: .build/var/REGISTRY \

@@ -1,10 +1,10 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ .Values.APP_INSTANCE_NAME }}-op-scim-bridge
+  name: op-scim-bridge
   labels: &ScimDeploymentLabels
     app.kubernetes.io/name: {{ .Values.APP_INSTANCE_NAME }}
-    app.kubernetes.io/component: op-scim-bridge-server
+    app.kubernetes.io/component: op-scim-bridge
 spec:
   selector:
     matchLabels: *ScimDeploymentLabels
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: op-scim-bridge
-        image: {{ .Values.IMAGE_SCIM_BRIDGE }}
+        image: {{ .Values.IMAGE_OP_SCIM }}
         imagePullPolicy: Always
         command: ["/op-scim/op-scim"]
         args: ["--redis-host={{ .Values.APP_INSTANCE_NAME }}-redis-svc", --session={{ .Values.scimsessionPath }}]
@@ -25,7 +25,9 @@ spec:
         - name: "update"
           value: "1"
         - name: OP_DOMAIN
-          value: {{ .Values.accountDomain }}
+          value: {{ .Values.OP_ACCOUNT_DOMAIN }}
+        - name: OP_ONE_CLICK
+          value: "true"
         ports:
         - containerPort: 8080
         - containerPort: 8443
@@ -36,17 +38,17 @@ spec:
       volumes:
       - name: {{ .Values.APP_INSTANCE_NAME }}-scimsession
         persistentVolumeClaim:
-          claimName: {{ .Values.APP_INSTANCE_NAME }}-op-scim-bridge-pvc
+          claimName: {{ .Values.APP_INSTANCE_NAME }}-pvc
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.APP_INSTANCE_NAME }}-op-scim-bridge-svc
+  name: {{ .Values.APP_INSTANCE_NAME }}-bridge-svc
   labels:
     app.kubernetes.io/name: {{ .Values.APP_INSTANCE_NAME }}
-    app.kubernetes.io/component: op-scim-bridge-server
+    app.kubernetes.io/component: op-scim-bridge
 spec:
   ports:
   - name: http
@@ -59,7 +61,7 @@ spec:
     targetPort: 8443
   selector:
     app.kubernetes.io/name: {{ .Values.APP_INSTANCE_NAME }}
-    app.kubernetes.io/component: op-scim-bridge-server
+    app.kubernetes.io/component: op-scim-bridge
   type: LoadBalancer
 
 ---
@@ -67,10 +69,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.APP_INSTANCE_NAME }}-op-scim-bridge-pvc
+  name: {{ .Values.APP_INSTANCE_NAME }}-pvc
   labels:
     app.kubernetes.io/name: {{ .Values.APP_INSTANCE_NAME }}
-    app.kubernetes.io/component: op-scim-bridge-server
+    app.kubernetes.io/component: op-scim-bridge
 spec:
   accessModes:
     - ReadWriteOnce
