@@ -20,7 +20,7 @@ spec:
         image: {{ .Values.IMAGE_OP_SCIM }}
         imagePullPolicy: Always
         command: ["/op-scim/op-scim"]
-        args: ["--redis-host={{ .Values.APP_INSTANCE_NAME }}-redis-svc", --session={{ .Values.scimsessionPath }}]
+        args: ["--redis-host={{ .Values.APP_INSTANCE_NAME }}-redis-svc", "--session={{ .Values.scimsessionPath }}", "--port=8080"]
         env:
         - name: "update"
           value: "1"
