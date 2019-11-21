@@ -48,7 +48,7 @@ app/build:: .build/op-scim/deployer \
 							   .build/var/TAG \
 							   | .build/op-scim
 	# docker pull gcr.io/op-scim-bridge/op-scim-bridge:webapp
-	docker tag "1password/scim:v$(TAG)" "$(REGISTRY)/op-scim-bridge:$(TAG)"
+	docker tag "1password/scim:v$(PUBLIC_TAG)" "$(REGISTRY)/op-scim-bridge:$(TAG)"
 	docker push "$(REGISTRY)/op-scim-bridge:$(TAG)"
 	@touch "$@"
 
