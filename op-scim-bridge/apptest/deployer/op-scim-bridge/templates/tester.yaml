@@ -13,7 +13,7 @@ spec:
     volumeMounts:
     - name: config-volume
       mountPath: /tester
-    command: ["bash"]
+    command: ["sh"]
     args: ["/tester/run.sh"]
   restartPolicy: Never
   volumes:
@@ -32,7 +32,7 @@ metadata:
 data:
   run.sh: |-
     set -x
-    endpoint="http://{{ .Release.Name }}:{{ .Values.service.port }}"
+    endpoint="http://{{ .Release.Name }}"
     echo GET $endpoint
     http_status_code=$(curl -o /dev/null -s -w "%{http_code}\n" $endpoint)
     echo "Expected http status code: 200"
