@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/name: "{{ .Release.Name }}"
   annotations:
     helm.sh/hook: test-success
+    marketplace.cloud.google.com/verification: test
 spec:
   containers:
   - name: tester
