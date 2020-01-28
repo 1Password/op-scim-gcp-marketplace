@@ -1,21 +1,28 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ .Release.Name }}-tester"
+  name: "${APP_INSTANCE_NAME}-tester"
   labels:
-    app.kubernetes.io/name: "{{ .Release.Name }}"
+    app.kubernetes.io/name: "${APP_INSTANCE_NAME}"
   annotations:
-    helm.sh/hook: test-success
     marketplace.cloud.google.com/verification: test
 spec:
+  serviceAccountName: ${APP_INSTANCE_NAME}-deployer-sa
   containers:
   - name: tester
-    image: "{{ .Values.tester.image }}"
+    image: "{{ .Values.testerImage }}"
+    command: ["sh"]
+    args: ["/tester/run.sh"]
+    env:
+      - name: NAMESPACE
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.namespace
+      - name: APP_INSTANCE_NAME
+        value: ${APP_INSTANCE_NAME}
     volumeMounts:
     - name: config-volume
       mountPath: /tester
-    command: ["sh"]
-    args: ["/tester/run.sh"]
   restartPolicy: Never
   volumes:
   - name: config-volume
@@ -25,9 +32,9 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "{{ .Release.Name }}-test"
+  name: "${APP_INSTANCE_NAME}-tester"
   labels:
-    app.kubernetes.io/name: "{{ .Release.Name }}"
+    app.kubernetes.io/name: "${APP_INSTANCE_NAME}"
   annotations:
     marketplace.cloud.google.com/verification: test
 data:

@@ -1,3 +1,6 @@
 properties:
-  tester.image:
+  testerImage:
     type: string
+    default: "curlimages/curl:latest"
+    x-google-property:
+      type: IMAGE

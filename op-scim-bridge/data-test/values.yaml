@@ -1,2 +1,0 @@
-tester:
-    image: "curlimages/curl:latest"
