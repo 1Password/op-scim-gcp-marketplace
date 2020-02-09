@@ -52,7 +52,13 @@ Using the makefile, one can create a push a new image to GCR. To do so, one must
 - TAG to put on GCP. When releasing, these should mirror the PUBLIC_TAG
 
 ```
-REGISTRY=gcr.io/op-scim-bridge PUBLIC_TAG=1.3.0-2 TAG=deptest-1 make app/build?
+PUBLIC_TAG=1.3.0-2 TAG=1.3.0-2 make app/build
+```
+
+Alternatively, to build a testing build, one may specify a testing tag
+
+```
+PUBLIC_TAG=1.3.0-2 TAG=test-vendoring make app/build
 ```
 
 ## MPDev
