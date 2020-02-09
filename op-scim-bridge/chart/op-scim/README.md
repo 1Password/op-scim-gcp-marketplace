@@ -18,3 +18,8 @@ op-scim
 
 
 Generally the Chart.yaml describes the chart as a whole, the values.yaml provides default configuration values, and the templates can be combined with the values to produce valid Kubernetes manifests.
+
+We have three templates: 
+- application.yaml -> Overarching application description. Includes high level user facing details such as description and maintainer links and a raw logo image. 
+- op-scim.yaml -> op-scim service description. Includes networking details, persistent volume connections, and startup arguments.
+- redis.yaml -> redis service description. Includes basic redis details and networking connection to the op-scim service.
