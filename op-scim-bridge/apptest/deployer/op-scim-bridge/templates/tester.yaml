@@ -32,10 +32,10 @@ metadata:
     marketplace.cloud.google.com/verification: test
 data:
   run.sh: |-
-    set -x
-    endpoint="http://{{ .Release.Name }}"
-    echo GET $endpoint
-    http_status_code=$(curl -o /dev/null -s -w "%{http_code}\n" $endpoint)
+    set -e
+    endpoint="http://{{ .Release.Name }}-bridge-svc"
+    echo "GET $endpoint/ping"
+    ping_response_code=$(curl --output /dev/null --silent --show-error --write-out "%{http_code}" "$endpoint/ping")
     echo "Expected http status code: 200"
     echo "Actual http status code: $http_status_code"
     if [[ "$http_status_code" == "200" ]]; then
