@@ -8,6 +8,7 @@ This is a chart, a Helm package for a Helm Chart Repository  which contains all 
 
 At the time of writing, the following is the package structure.
 
+```
 op-scim
 │       ├── Chart.yaml
 │       ├── templates
@@ -15,6 +16,7 @@ op-scim
 │       │   ├── op-scim.yaml
 │       │   └── redis.yaml
 │       └── values.yaml
+```
 
 
 Generally the Chart.yaml describes the chart as a whole, the values.yaml provides default configuration values, and the templates can be combined with the values to produce valid Kubernetes manifests.
