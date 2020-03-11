@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ .Release.Name }}-tester"
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}"
+  annotations:
+    helm.sh/hook: test-success
+    marketplace.cloud.google.com/verification: test
+spec:
+  containers:
+  - name: tester
+    image: "{{ .Values.tester.image }}"
+    volumeMounts:
+    - name: config-volume
+      mountPath: /tester
+    command: ["sh"]
+    args: ["/tester/run.sh"]
+  restartPolicy: Never
+  volumes:
+  - name: config-volume
+    configMap:
+      name: "{{ .Release.Name }}-test"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Release.Name }}-test"
+  labels:
+    app.kubernetes.io/name: "{{ .Release.Name }}"
+  annotations:
+    marketplace.cloud.google.com/verification: test
+data:
+  run.sh: |-
+    set -e
+    endpoint="http://{{ .Release.Name }}-bridge-svc"
+    echo "GET $endpoint/ping"
+    ping_response_code=$(curl --output /dev/null --silent --show-error --write-out "%{http_code}" "$endpoint/ping")
+    echo "Expected http status code: 200"
+    echo "Actual http status code: $http_status_code"
+    if [[ "$http_status_code" == "200" ]]; then
+      echo SUCCESS
+    else
+      echo FAILURE
+      exit 1
+    fi
