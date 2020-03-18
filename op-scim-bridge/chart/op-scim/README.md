@@ -4,7 +4,7 @@ This is a Helm Chart for the 1Password SCIM Bridge for use with Helm based deplo
 
 ## Helm Primer
 
-This is a chart, a Helm package for a Helm Chart Repository  which contains all the resource definitions necessary to run op-scim inside of a Kubernetes cluster. More information on the structure of this package and the roles of the components can be found here: [https://helm.sh/docs/topics/charts/] (https://helm.sh/docs/topics/charts/)
+This is a chart, a Helm package for a Helm Chart Repository  which contains all the resource definitions necessary to run op-scim inside of a Kubernetes cluster. More information on the structure of this package and the roles of the components can be found here: [https://helm.sh/docs/topics/charts/](https://helm.sh/docs/topics/charts/)
 
 At the time of writing, the following is the package structure.
 
