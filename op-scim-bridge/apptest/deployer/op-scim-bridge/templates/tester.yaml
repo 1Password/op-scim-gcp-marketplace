@@ -33,12 +33,10 @@ metadata:
 data:
   run.sh: |-
     set -e
-    endpoint="http://{{ .Release.Name }}-bridge-svc"
-    echo "GET $endpoint/ping"
-    ping_response_code=$(curl --output /dev/null --silent --show-error --write-out "%{http_code}" "$endpoint/ping")
-    echo "Expected http status code: 200"
-    echo "Actual http status code: $http_status_code"
-    if [[ "$http_status_code" == "200" ]]; then
+    endpoint="{{ .Release.Name }}-bridge-svc"
+    echo "GET http://$endpoint/ping"
+    ping_response=$(curl --silent --show-error "http://$endpoint/ping")
+    if [[ "$ping_response" == "pong" ]]; then
       echo SUCCESS
     else
       echo FAILURE
