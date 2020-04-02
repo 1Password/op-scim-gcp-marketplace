@@ -12,7 +12,7 @@ metadata:
 spec:
   descriptor:
     type: SCIM bridge
-    version: '1.1.2'
+    version: '1.3.1'
     description: >-
       Use the 1Password SCIM bridge to integrate 1Password with your identity provider for automated provisioning.
 
@@ -39,7 +39,7 @@ spec:
   componentKinds:
   - group: v1
     kind: PersistentVolumeClaim
-  - group: apps/v1beta2
+  - group: apps/v1
     kind: Deployment
   - group: v1
     kind: Secret
