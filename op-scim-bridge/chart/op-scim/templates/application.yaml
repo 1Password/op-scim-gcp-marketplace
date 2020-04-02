@@ -39,7 +39,7 @@ spec:
   componentKinds:
   - group: v1
     kind: PersistentVolumeClaim
-  - group: apps/v1beta2
+  - group: apps/v1
     kind: Deployment
   - group: v1
     kind: Secret
