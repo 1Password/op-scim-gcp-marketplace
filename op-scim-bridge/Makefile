@@ -9,8 +9,6 @@ include ../vendor/marketplace-tools/var.Makefile
 TAG ?= latest
 $(info ---- TAG = $(TAG))
 
-REGISTRY="gcr.io/op-scim-bridge"
-
 APP_DEPLOYER_IMAGE ?= $(REGISTRY)/op-scim-bridge/deployer:$(TAG)
 NAME ?= op-scim-bridge
 APP_PARAMETERS ?= { \
