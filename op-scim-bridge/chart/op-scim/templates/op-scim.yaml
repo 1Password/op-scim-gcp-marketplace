@@ -15,12 +15,20 @@ spec:
     metadata:
       labels: *ScimDeploymentLabels
     spec:
+      initContainers:
+      - name: scimuser-home-permissions
+        image: alpine:3.12
+        command: ["/bin/sh", "-c"]
+        args: ["mkdir -p {{ .Values.scimUserHome }} && chown -R {{ .Values.scimUserID }} {{ .Values.scimUserHome }}"]
+        volumeMounts:
+        - mountPath: "/home"
+          name: {{ .Values.APP_INSTANCE_NAME }}-scimsession
       containers:
       - name: op-scim-bridge
         image: {{ .Values.IMAGE_OP_SCIM }}
         imagePullPolicy: Always
         command: ["/op-scim/op-scim"]
-        args: ["--redis-host={{ .Values.APP_INSTANCE_NAME }}-redis-svc", "--session={{ .Values.scimsessionPath }}", "--port=8080"]
+        args: ["--redis-host={{ .Values.APP_INSTANCE_NAME }}-redis-svc", "--session={{ .Values.scimUserHome }}/{{ .Values.scimsessionFile }}", "--port=8080"]
         env:
         - name: "update"
           value: "1"
@@ -33,7 +41,7 @@ spec:
         - containerPort: 8443
         volumeMounts:
         - name: {{ .Values.APP_INSTANCE_NAME }}-scimsession
-          mountPath: "/secret"
+          mountPath: "/home"
           readOnly: false
       volumes:
       - name: {{ .Values.APP_INSTANCE_NAME }}-scimsession
