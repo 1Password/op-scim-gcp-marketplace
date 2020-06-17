@@ -1,1 +1,4 @@
-scimsessionPath: /secret/scimsession
+scimsessionFile: scimsession
+scimUserID: 999
+scimUserName: scimuser
+scimUserHome: /home/scimuser
