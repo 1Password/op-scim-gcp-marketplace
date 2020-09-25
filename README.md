@@ -52,13 +52,13 @@ Using the makefile, one can create a push a new image to the Google Container Re
 - TAG to put on GCP. When releasing, these should mirror the PUBLIC_TAG
 
 ```
-PUBLIC_TAG=1.3.0-2 TAG=1.3.0-2 make app/build
+REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=1.6.0 TAG=1.6.0 make app/build
 ```
 
 Alternatively, to build a testing build, one may specify a testing tag
 
 ```
-PUBLIC_TAG=1.3.0-2 TAG=test-vendoring make app/build
+REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=1.6.0 TAG=test-vendoring make app/build
 ```
 
 ## MPDev
