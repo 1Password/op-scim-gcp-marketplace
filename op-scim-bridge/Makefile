@@ -4,8 +4,8 @@ PUBLIC_TAG ?= latest
 $(info ---- TAG = $(TAG))
 $(info ---- PUBLIC_TAG = $(PUBLIC_TAG))
 
-include ../vendor/gcloud.Makefile
-include ../vendor/var.Makefile
+include ../gcloud.Makefile
+include ../var.Makefile
 
 APP_DEPLOYER_IMAGE ?= $(REGISTRY)/op-scim-bridge/deployer:$(TAG)
 NAME ?= op-scim-bridge
@@ -15,7 +15,7 @@ APP_PARAMETERS ?= { \
 }
 APP_TEST_PARAMETERS ?= {}
 
-include ../vendor/app.Makefile
+include ../app.Makefile
 
 app/build:: .build/op-scim/deployer \
             .build/op-scim/op-scim-redis \
