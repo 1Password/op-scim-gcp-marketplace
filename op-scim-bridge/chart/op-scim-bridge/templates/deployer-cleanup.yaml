@@ -1,0 +1,15 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: deployer-cleanup # deletes stale deployers to improve upgradeability of the SCIM bridge
+spec:
+  schedule: "*/1 * * * *" # once a minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: kubectl-runner
+            image: bitnami/kubectl
+            command: ["sh", "-c", "kubectl delete jobs $(kubectl get jobs | awk '$2 ~ 1/1' | awk '{print $1}')"] # removes "Complete" deployer pods
+          restartPolicy: Never

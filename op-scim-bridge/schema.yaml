@@ -1,32 +1,40 @@
-application_api_version: v1beta1
+x-google-marketplace:
+  schemaVersion: v2
+  applicationApiVersion: v1beta1
+  publishedVersion: "1.6.1"
+  publishedVersionMetadata:
+    releaseNote: >-
+      Please see the SCIM bridge release notes.
+    releaseTypes:
+      - Feature
+    recommended: true
+
+  images:
+    '':
+      properties:
+        bridge.image.repository:
+          type: REPO_WITH_REGISTRY
+        bridge.image.tag:
+          type: TAG
+    redis: 
+      properties:
+        redis.image.repository:
+          type: REPO_WITH_REGISTRY
+        redis.image.tag:
+          type: TAG
+
+
 properties:
-  APP_INSTANCE_NAME:
+  name:
     type: string
     x-google-marketplace:
       type: NAME
-  NAMESPACE:
+  namespace:
     type: string
     x-google-marketplace:
       type: NAMESPACE
-  IMAGE_OP_SCIM:
-    type: string
-    default: $REGISTRY:$TAG
-    x-google-marketplace:
-      type: IMAGE
-  IMAGE_REDIS:
-    type: string
-    default: $REGISTRY/redis:$TAG
-    x-google-marketplace:
-      type: IMAGE
-  OP_ACCOUNT_DOMAIN:
-    title: 1Password sign-in address
-    description: >-
-      "Your 1Password sign-in address. For example: example.1password.com"
-    type: string
-    default: example.1password.com
+
+
 required:
-- APP_INSTANCE_NAME
-- NAMESPACE
-- IMAGE_OP_SCIM
-- IMAGE_REDIS
-- OP_ACCOUNT_DOMAIN
+- name
+- namespace

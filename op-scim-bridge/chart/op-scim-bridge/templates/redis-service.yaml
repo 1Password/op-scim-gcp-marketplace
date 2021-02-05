@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}-redis-svc
+  labels:
+    app.kubernetes.io/name: {{ .Values.name }}
+    app.kubernetes.io/component: op-scim-redis
+spec:
+  ports:
+  - name: op-scim-redis
+    port: 6379
+  selector:
+    app.kubernetes.io/name: {{ .Values.name }}
+    app.kubernetes.io/component: op-scim-redis
+  clusterIP: None
