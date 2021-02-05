@@ -24,7 +24,7 @@ To work with this deployment bundle, you will need to use the `mpdev` developmen
 │   │       ├── README.md
 │   │       ├── templates
 │   │       │   ├── application.yaml
-│   │       │   ├── op-scim-deployer.yaml
+│   │       │   ├── op-scim-deployment.yaml
 │   │       │   ├── op-scim-service.yaml
 │   │       │   ├── op-scim-persist.yaml
 │   │       │   ├── redis-service.yaml
@@ -50,9 +50,9 @@ The `op-scim-bridge` package is further broken down into five components:
 
 Using the makefile, one can create a push a new image to the Google Container Registry (GCR). To do so, one must declare environment variables:
 
-- REGISTRY - The google cloud registry we are building for
-- PUBLIC_TAG of the SCIM Bridge we are building off of.
-- TAG to put on GCP. When releasing, these should mirror the PUBLIC_TAG
+- `REGISTRY` - the Google Cloud Registry you are building for
+- `PUBLIC_TAG` - the tag/version SCIM Bridge you are building for
+- `TAG` - private tag/version. Useful for testing, but this should mirror the PUBLIC_TAG when releasing.
 
 ```bash
 REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=1.6.1 TAG=1.6.1 make app/build
