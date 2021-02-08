@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: op-scim-bridge
+  name: {{ .Values.name }}-op-scim-bridge
   labels: &ScimDeploymentLabels
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: op-scim-bridge
@@ -29,14 +29,14 @@ spec:
         imagePullPolicy: Always
         command: ["/op-scim/op-scim"]
         env:
-        - name: "update"
-          value: "1"
         - name: "OP_PORT"
           value: "8080"
         - name: "OP_SESSION"
           value: "{{ .Values.scimUserHome }}/{{ .Values.scimsessionFile }}"
         - name: "OP_REDIS_HOST"
-          value: "{{ .Values.name }}-redis-svc"
+          value: "{{ .Values.name }}-op-scim-redis-svc"
+        - name: "OP_ONE_CLICK"
+          value: "true"
         ports:
         - containerPort: 8080
         - containerPort: 8443
@@ -47,4 +47,4 @@ spec:
       volumes:
       - name: {{ .Values.name }}-scimsession
         persistentVolumeClaim:
-          claimName: {{ .Values.name }}-pvc
+          claimName: {{ .Values.name }}-op-scim-bridge-pvc

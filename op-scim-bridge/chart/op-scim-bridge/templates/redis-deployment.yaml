@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: op-scim-redis
+  name: {{ .Values.name }}-op-scim-redis
   labels: &RedisDeploymentLabels
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: op-scim-redis
