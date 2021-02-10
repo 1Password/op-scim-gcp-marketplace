@@ -1,3 +1,2 @@
-# This is an example showing that values in the app charts can be overwriten in test mode
 tester:
-  image: cosmintitei/bash-curl
+  image: curlimages/curl
