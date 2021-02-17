@@ -37,6 +37,8 @@ spec:
           value: "{{ .Values.name }}-op-scim-redis-svc"
         - name: "OP_ONE_CLICK"
           value: "true"
+        - name: "OP_DOMAIN"
+          value: "{{ .Values.accountdomain }}"
         ports:
         - containerPort: 8080
         - containerPort: 8443

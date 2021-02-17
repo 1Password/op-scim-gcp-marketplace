@@ -1,7 +1,7 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "1.6.1"
+  publishedVersion: "1.6.2"
   publishedVersionMetadata:
     releaseNote: >-
       Please see the SCIM bridge release notes.
@@ -33,8 +33,15 @@ properties:
     type: string
     x-google-marketplace:
       type: NAMESPACE
+  accountdomain:
+    title: 1Password sign-in address
+    description: >-
+      "Your 1Password sign-in address. For example: example.1password.com"
+    type: string
+    default: example.1password.com
 
 
 required:
 - name
 - namespace
+- accountdomain
