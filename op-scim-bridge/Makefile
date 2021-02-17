@@ -1,13 +1,15 @@
-
+APP_ID ?= 1password/op-scim-bridge
 TAG ?= latest
 PUBLIC_TAG ?= latest
 $(info ---- TAG = $(TAG))
 $(info ---- PUBLIC_TAG = $(PUBLIC_TAG))
 
-include ../gcloud.Makefile
-include ../var.Makefile
+include ../tools/gcloud.Makefile
+include ../tools/var.Makefile
 
 APP_DEPLOYER_IMAGE ?= $(REGISTRY)/op-scim-bridge/deployer:$(TAG)
+APP_GCS_PATH ?= $(GCS_URL)/$(APP_ID)/$(TAG)
+CHART_NAME ?= op-scim-bridge
 NAME ?= op-scim-bridge
 APP_PARAMETERS ?= { \
   "name": "$(NAME)", \
@@ -15,7 +17,7 @@ APP_PARAMETERS ?= { \
 }
 APP_TEST_PARAMETERS ?= {}
 
-include ../app.Makefile
+include ../tools/app_v2.Makefile
 
 app/build:: .build/op-scim/deployer \
             .build/op-scim/op-scim-redis \
