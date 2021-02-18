@@ -33,7 +33,7 @@ properties:
     type: string
     x-google-marketplace:
       type: NAMESPACE
-  accountdomain:
+  accountDomain:
     title: 1Password sign-in address
     description: >-
       "Your 1Password sign-in address. For example: example.1password.com"
@@ -44,4 +44,4 @@ properties:
 required:
 - name
 - namespace
-- accountdomain
+- accountDomain

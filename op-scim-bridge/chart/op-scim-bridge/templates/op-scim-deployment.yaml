@@ -38,7 +38,7 @@ spec:
         - name: "OP_ONE_CLICK"
           value: "true"
         - name: "OP_DOMAIN"
-          value: "{{ .Values.accountdomain }}"
+          value: "{{ .Values.accountDomain }}"
         ports:
         - containerPort: 8080
         - containerPort: 8443
