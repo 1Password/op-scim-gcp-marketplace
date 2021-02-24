@@ -90,7 +90,7 @@ You can validate your installation by running `mpdev doctor`
 
 It is now possible to use `mpdev` to install our application on your Kubernetes cluster on GCP. This allows you to test our application outside of the marketplace.
 
-As defined in [schema.yaml](./op-scim-bridge/schema.yaml) our application requires three arguments: `name`, `namespace`, and `accountdomain`. These parallel the values chosen in the user interface when deploying from the Marketplace. 
+As defined in [schema.yaml](./op-scim-bridge/schema.yaml) our application requires three arguments: `name`, `namespace`, and `accountDomain`. These parallel the values chosen in the user interface when deploying from the Marketplace. 
 
 ```bash
 mpdev install --deployer=gcr.io/op-scim-bridge/op-scim-bridge/deployer:latest --parameters='{"name": "mpdev", "namespace": "default", "accountdomain": "testing.1password.com" }'
@@ -111,4 +111,3 @@ The output is very long and rather hard to read, but all the components of what 
 ## More
 
 A full installation guide can be found here: [GCP MPDev Reference](https://github.com/GoogleCloudPlatform/marketplace-k8s-app-tools/blob/master/docs/mpdev-references.md)
-
