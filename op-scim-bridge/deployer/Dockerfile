@@ -10,7 +10,7 @@ RUN cat /tmp/apptest/schema.yaml \
     > /tmp/apptest/schema.yaml.new \
     && mv /tmp/apptest/schema.yaml.new /tmp/apptest/schema.yaml
 
-FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm/onbuild:0.10.10
+FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm/onbuild:0.10.11
 
 COPY --from=build /tmp/test/chart.tar.gz /data-test/chart/
 COPY --from=build /tmp/apptest/schema.yaml /data-test/
