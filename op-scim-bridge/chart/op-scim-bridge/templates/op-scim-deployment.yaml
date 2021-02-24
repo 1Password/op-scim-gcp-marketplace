@@ -17,7 +17,7 @@ spec:
     spec:
       initContainers:
       - name: scimuser-home-permissions
-        image: alpine:3.13.1
+        image: alpine:3.13
         command: ["/bin/sh", "-c"]
         args: ["mkdir -p {{ .Values.scimUserHome }} && chown -R {{ .Values.scimUserID }} {{ .Values.scimUserHome }}"]
         volumeMounts:
