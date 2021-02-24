@@ -11,5 +11,5 @@ spec:
           containers:
           - name: kubectl-runner
             image: bitnami/kubectl
-            command: ["bash", "-c", "if [[ `kubectl get pods -n {{ .Values.namespace }} | grep -i deployer | awk '$2 ~ 1/1' | awk '{print $1}'` ]]; then sleep 20 && kubectl delete jobs -n {{ .Values.namespace }} $(kubectl get jobs -n {{ .Values.namespace }} | grep -i deployer | awk '$2 ~ 1/1' | awk '{print $1}'); fi"]
+            command: ["bash", "-c", "if [[ `kubectl get pods -n {{ .Values.namespace }} | grep -i deployer | awk '$2 ~ 1/1' | awk '{print $1}'` ]]; then kubectl delete jobs -n {{ .Values.namespace }} $(kubectl get jobs -n {{ .Values.namespace }} | grep -i deployer | awk '$2 ~ 1/1' | awk '{print $1}'); fi"]
           restartPolicy: Never
