@@ -13,5 +13,5 @@ spec:
           containers:
           - name: kubectl-runner
             image: bitnami/kubectl
-            command: ["bash", "-c", "if kubectl get jobs -n {{ .Values.namespace }} | awk '$1 ~ /{{ .Values.name }}-deployer/ && $2 ~ 1/1 { print $1 }' 2>/dev/null; then kubectl delete jobs -n {{ .Values.namespace }} $(kubectl get jobs -n {{ .Values.namespace }} | awk '$1 ~ /{{ .Values.name }}-deployer/ && $2 ~ 1/1 {print $1}' 2>/dev/null) 2>/dev/null; fi; exit 0"]
+            command: ["bash", "-c", "if [[ `kubectl get pods -n {{ .Values.namespace }} | awk '$1 ~ /{{ .Values.name }}-deployer/ && $2 ~ /0.*1/ { print $1 }'` ]]; then kubectl delete jobs -n {{ .Values.namespace }} $(kubectl get jobs -n {{ .Values.namespace }} | awk '$1 ~ /{{ .Values.name }}-deployer/ && $2 ~ /0.*1/ {print $1}' 2>/dev/null) 2>/dev/null; fi; exit 0"]
           restartPolicy: Never

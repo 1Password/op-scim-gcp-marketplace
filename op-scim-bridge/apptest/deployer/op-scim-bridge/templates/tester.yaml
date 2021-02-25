@@ -22,7 +22,7 @@ spec:
     - name: NAMESPACE
       valueFrom:
         fieldRef:
-          FieldPath: metadata.namespace
+          fieldPath: metadata.namespace
     - name: APP_INSTANCE_NAME
       value: {{ .Release.Name }}
   restartPolicy: Never
