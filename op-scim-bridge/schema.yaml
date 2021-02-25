@@ -21,6 +21,7 @@ x-google-marketplace:
           type: REPO_WITH_REGISTRY
         redis.image.tag:
           type: TAG
+
 properties:
   name:
     type: string

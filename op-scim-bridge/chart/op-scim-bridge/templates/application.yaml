@@ -43,3 +43,5 @@ spec:
     kind: Secret
   - group: v1
     kind: Service
+  - group: batch/v1beta1
+    kind: CronJob

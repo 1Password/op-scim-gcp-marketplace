@@ -2,6 +2,9 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: "{{ .Values.name }}-cleanup" # deletes stale deployers to improve upgradeability of the SCIM bridge
+  labels: &CronLabels
+    app.kubernetes.io/name: {{ .Values.name }}
+    app.kubernetes.io/component: cleanup
 spec:
   schedule: "*/1 * * * *" # once a minute
   successfulJobsHistoryLimit: 0
@@ -9,6 +12,8 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels: *CronLabels
         spec:
           containers:
           - name: kubectl-runner

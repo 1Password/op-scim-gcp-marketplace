@@ -1,5 +1,5 @@
 properties:
-  image:
+  tester.image:
     type: string
     default: curlimages/curl
     x-google-property:
