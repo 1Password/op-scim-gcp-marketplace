@@ -8,7 +8,6 @@ x-google-marketplace:
     releaseTypes:
       - Feature
     recommended: true
-
   images:
     '':
       properties:
@@ -22,8 +21,6 @@ x-google-marketplace:
           type: REPO_WITH_REGISTRY
         redis.image.tag:
           type: TAG
-
-
 properties:
   name:
     type: string
@@ -39,7 +36,6 @@ properties:
       "Your 1Password sign-in address. For example: example.1password.com"
     type: string
     default: example.1password.com
-
 
 required:
 - name

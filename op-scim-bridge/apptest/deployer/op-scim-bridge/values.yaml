@@ -1,2 +1,2 @@
 tester:
-  image: curlimages/curl
+  image: null
