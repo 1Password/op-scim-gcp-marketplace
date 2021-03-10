@@ -64,3 +64,6 @@ app/build:: .build/op-scim/deployer \
 		"$(REGISTRY)/op-scim-bridge/redis:$(TAG)"
 	docker push "$(REGISTRY)/op-scim-bridge/redis:$(TAG)"
 	@touch "$@"
+
+app/test:
+	mpdev /scripts/verify --deployer=gcr.io/op-scim-bridge/op-scim-bridge/deployer:${TAG}
