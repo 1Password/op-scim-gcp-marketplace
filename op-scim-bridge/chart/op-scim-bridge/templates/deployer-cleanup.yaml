@@ -2,6 +2,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: "{{ .Values.name }}-cleanup" # deletes stale deployers to improve upgradeability of the SCIM bridge
+  namespace: {{ .Values.namespace }}
   labels: &CronLabels
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: cleanup
@@ -15,6 +16,7 @@ spec:
         metadata:
           labels: *CronLabels
         spec:
+          serviceAccountName: {{ .Values.name }}-serviceaccount
           containers:
           - name: kubectl-runner
             image: bitnami/kubectl
@@ -33,6 +35,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: "{{ .Values.name }}-cleanup-script"
+  namespace: {{ .Values.namespace }}
   labels:
     app.kubernetes.io/name: "{{ .Values.name }}"
     app.kubernetes.io/component: cleanup-script
@@ -48,4 +51,36 @@ data:
         echo "deployer not detected, skipping"
       fi
       exit 0
-
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.name }}-serviceaccount
+  namespace: {{ .Values.namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.name }}-serviceaccount
+  namespace: {{ .Values.namespace }}
+  labels: &CronLabels
+    app.kubernetes.io/name: "{{ .Values.name }}"
+    app.kubernetes.io/component: cleanup
+rules:
+  - apiGroups: ["", "batch"]
+    resources: ["jobs"]
+    verbs: ["get", "list", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.name }}-serviceaccount
+  namespace: {{ .Values.namespace }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.name }}-serviceaccount
+    namespace: {{ .Values.namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ .Values.name }}-serviceaccount
