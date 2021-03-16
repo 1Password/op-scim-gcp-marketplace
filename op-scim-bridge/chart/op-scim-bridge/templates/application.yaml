@@ -45,3 +45,9 @@ spec:
     kind: Service
   - group: batch/v1beta1
     kind: CronJob
+  - group: v1
+    kind: ServiceAccount
+  - group: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+  - group: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding

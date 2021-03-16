@@ -6,6 +6,8 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: op-scim-redis
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
 spec:
   ports:
   - name: op-scim-redis

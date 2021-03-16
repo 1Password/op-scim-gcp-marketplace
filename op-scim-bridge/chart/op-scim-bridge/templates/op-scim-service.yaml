@@ -6,6 +6,9 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: op-scim-bridge
+  annotations:
+    cloud.google.com/neg: '{"ingress" : true}'
+    kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
 spec:
   ports:
   - name: scim-bridge-http-port
