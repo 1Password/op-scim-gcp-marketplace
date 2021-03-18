@@ -5,6 +5,8 @@ x-google-marketplace:
   publishedVersionMetadata:
     releaseNote: >-
       Refer to the SCIM bridge release notes.
+
+      https://app-updates.agilebits.com/product_history/SCIM
     releaseTypes:
       - Feature
     recommended: true
