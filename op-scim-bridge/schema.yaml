@@ -4,7 +4,7 @@ x-google-marketplace:
   publishedVersion: "1.6.2"
   publishedVersionMetadata:
     releaseNote: >-
-      Please see the SCIM bridge release notes.
+      Refer to the SCIM bridge release notes.
     releaseTypes:
       - Feature
     recommended: true
@@ -13,7 +13,7 @@ x-google-marketplace:
       type: STRICT
       gke:
         nodePool:
-        - numNodes: 2
+        - numNodes: 3
           machineType: e2-small
   images:
     '':
