@@ -16,7 +16,7 @@ spec:
         metadata:
           labels: *CronLabels
         spec:
-          serviceAccountName: {{ .Values.name }}-serviceaccount
+          serviceAccountName: {{ .Values.scim.serviceAccount }}
           containers:
           - name: kubectl-runner
             image: bitnami/kubectl
@@ -51,36 +51,3 @@ data:
         echo "deployer not detected, skipping"
       fi
       exit 0
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: {{ .Values.name }}-serviceaccount
-  namespace: {{ .Values.namespace }}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: {{ .Values.name }}-serviceaccount
-  namespace: {{ .Values.namespace }}
-  labels: &CronLabels
-    app.kubernetes.io/name: "{{ .Values.name }}"
-    app.kubernetes.io/component: cleanup
-rules:
-  - apiGroups: ["", "batch"]
-    resources: ["jobs"]
-    verbs: ["get", "list", "delete"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: {{ .Values.name }}-serviceaccount
-  namespace: {{ .Values.namespace }}
-subjects:
-  - kind: ServiceAccount
-    name: {{ .Values.name }}-serviceaccount
-    namespace: {{ .Values.namespace }}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: {{ .Values.name }}-serviceaccount

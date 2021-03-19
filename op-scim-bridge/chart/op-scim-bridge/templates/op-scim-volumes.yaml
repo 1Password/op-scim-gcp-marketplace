@@ -7,8 +7,7 @@ metadata:
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: op-scim-bridge
 spec:
-  accessModes:
-    - ReadWriteOnce
+  accessModes: [ "ReadWriteOnce" ]
   resources:
     requests:
-      storage: 1Mi
+      storage: 1Gi

@@ -17,6 +17,16 @@ x-google-marketplace:
         nodePool:
         - numNodes: 3
           machineType: e2-small
+    resources:
+      - replicas: 1
+        requests:
+          cpu: 200m
+          memory: 2Gi
+        affinity:
+          simple NodeAffinity:
+            type: REQUIRE_ONE_NODE_PER_REPLICA
+            minimumNodeCount: 1
+
   images:
     '':
       properties:
@@ -30,6 +40,8 @@ x-google-marketplace:
           type: REPO_WITH_REGISTRY
         redis.image.tag:
           type: TAG
+  istio:
+    type: UNSUPPORTED
 
 properties:
   name:
@@ -46,8 +58,23 @@ properties:
       "Your 1Password sign-in address. For example: example.1password.com"
     type: string
     default: example.1password.com
+  scim.serviceAccount:
+    type: string
+    title: Kubernetes Service Account
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: Service account to manage your Kubernetes cluster
+        roles:
+        - type: ClusterRole
+          rulesType: CUSTOM
+          rules:
+          - apiGroups: ["", "batch"]
+            resources: ["jobs"]
+            verbs: ["get", "list", "delete"]
 
 required:
 - name
 - namespace
 - accountDomain
+- scim.serviceAccount

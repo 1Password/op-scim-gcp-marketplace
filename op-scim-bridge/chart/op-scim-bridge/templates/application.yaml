@@ -36,6 +36,8 @@ spec:
       app.kubernetes.io/name: "{{ .Values.name }}"
   componentKinds:
   - group: v1
+    kind: PersistentVolume
+  - group: v1
     kind: PersistentVolumeClaim
   - group: apps/v1
     kind: Deployment
@@ -45,9 +47,3 @@ spec:
     kind: Service
   - group: batch/v1beta1
     kind: CronJob
-  - group: v1
-    kind: ServiceAccount
-  - group: rbac.authorization.k8s.io/v1
-    kind: ClusterRole
-  - group: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding

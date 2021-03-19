@@ -2,14 +2,13 @@ bridge:
   image:
     repo: null
     tag: null
-
 redis:
   image:
     repo: null
     tag: null
 
-scimsessionFile: scimsession
-scimUserID: 999
-scimUserName: scimuser
-scimUserHome: /home/scimuser
-scimVersion: 1.6.2
+scim:
+  userId: 999
+  userName: scimuser
+  filePath: /home
+  serviceAccount: null
