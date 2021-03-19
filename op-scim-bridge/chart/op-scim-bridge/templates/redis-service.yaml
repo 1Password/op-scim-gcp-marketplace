@@ -1,18 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.name }}-op-scim-redis-svc
+  name: {{ .Values.name }}-op-scim-redis
   namespace: {{ .Values.namespace }}
-  labels:
+  labels: &RedisServiceLabels
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: op-scim-redis
-  annotations:
-    cloud.google.com/neg: '{"ingress": true}'
 spec:
   ports:
   - name: op-scim-redis
     port: 6379
-  selector:
-    app.kubernetes.io/name: {{ .Values.name }}
-    app.kubernetes.io/component: op-scim-redis
-  clusterIP: None
+  selector: *RedisServiceLabels

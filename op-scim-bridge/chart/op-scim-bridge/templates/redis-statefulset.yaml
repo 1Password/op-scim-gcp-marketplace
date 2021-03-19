@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ .Values.name }}-op-scim-redis
   namespace: {{ .Values.namespace }}
@@ -10,6 +10,7 @@ spec:
   selector:
     matchLabels: *RedisDeploymentLabels
   replicas: 1
+  serviceName: {{ .Values.name }}-op-scim-redis
   template:
     metadata:
       labels: *RedisDeploymentLabels
