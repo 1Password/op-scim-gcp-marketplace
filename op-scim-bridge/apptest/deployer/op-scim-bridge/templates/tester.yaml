@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: "{{ .Release.Name }}-tester"
+  namespace: "{{ .Values.namespace }}"
   labels:
     app.kubernetes.io/name: "{{ .Release.Name }}"
   annotations:
@@ -28,6 +29,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: "{{ .Release.Name }}-test"
+  namespace: "{{ .Values.namespace }}"
   labels:
     app.kubernetes.io/name: "{{ .Release.Name }}"
   annotations:

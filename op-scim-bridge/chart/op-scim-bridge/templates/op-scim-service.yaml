@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.name }}-op-scim-bridge-svc
   namespace: {{ .Values.namespace }}
-  labels:
+  labels: &OpScimBridgeServiceLabels
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: op-scim-bridge
   annotations:
@@ -19,7 +19,5 @@ spec:
     port: 443
     protocol: TCP
     targetPort: 8443
-  selector:
-    app.kubernetes.io/name: {{ .Values.name }}
-    app.kubernetes.io/component: op-scim-bridge
+  selector: *OpScimBridgeServiceLabels
   type: LoadBalancer
