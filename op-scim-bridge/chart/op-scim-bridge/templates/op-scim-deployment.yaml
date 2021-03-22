@@ -1,31 +1,26 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: {{ .Values.name }}-op-scim-bridge
   namespace: {{ .Values.namespace }}
   labels: &ScimDeploymentLabels
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: op-scim-bridge
+    app: {{ .Values.name }}-op-scim-bridge
 spec:
   selector:
     matchLabels: *ScimDeploymentLabels
   replicas: 1
-  serviceName: {{ .Values.name }}-op-scim-bridge
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels: *ScimDeploymentLabels
     spec:
-      terminationGracePeriodSeconds: 180
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: "app.kubernetes.io/component"
-                    operator: In
-                    values:
-                    - op-scim-bridge
-              topologyKey: "kubernetes.io/hostname"
+      volumes:
+      - name: {{ .Values.name }}-scimsession
+        persistentVolumeClaim:
+          claimName: {{ .Values.name }}-op-scim-bridge-pvc
       initContainers:
       - name: scimuser-permissions
         image: alpine:3.13
@@ -33,10 +28,11 @@ spec:
         args: ["mkdir -p {{ .Values.scim.filePath }}/{{ .Values.scim.userName }} && chown -R {{ .Values.scim.userId }} {{ .Values.scim.filePath }}/{{ .Values.scim.userName }}"]
         volumeMounts:
         - mountPath: "{{ .Values.scim.filePath }}"
-          name: {{ .Values.name }}-op-scim-bridge-pvc
+          name: {{ .Values.name }}-scimsession
       containers:
       - name: op-scim-bridge
         image: {{ .Values.bridge.image.repository }}:{{ .Values.bridge.image.tag }}
+        imagePullPolicy: Always
         command: ["/op-scim/op-scim"]
         env:
         - name: "OP_PORT"
@@ -44,27 +40,14 @@ spec:
         - name: "OP_SESSION"
           value: "{{ .Values.scim.filePath }}/{{ .Values.scim.userName }}/scimsession"
         - name: "OP_REDIS_HOST"
-          value: "{{ .Values.name }}-op-scim-redis"
+          value: "{{ .Values.name }}-op-scim-redis-svc"
         - name: "OP_ONE_CLICK"
           value: "true"
         - name: "OP_DOMAIN"
           value: "{{ .Values.accountDomain }}"
         ports:
-        - name: acme-challenge
-          containerPort: 8080
-        - name: scim-bridge
-          containerPort: 8443
+        - containerPort: 8080
+        - containerPort: 8443
         volumeMounts:
-        - name: {{ .Values.name }}-op-scim-bridge-pvc
+        - name: {{ .Values.name }}-scimsession
           mountPath: "/home"
-  volumeClaimTemplates:
-  - metadata:
-      name: {{ .Values.name }}-op-scim-bridge-pvc
-      namespace: {{ .Values.namespace }}
-      labels: *ScimDeploymentLabels
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: standard
-      resources:
-        requests:
-          storage: 1Gi

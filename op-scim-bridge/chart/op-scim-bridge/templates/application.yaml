@@ -7,7 +7,7 @@ metadata:
     kubernetes-engine.cloud.google.com/icon: >-
       data:image/png;base64,{{ .Files.Get "logo.png" | b64enc }}
     marketplace.cloud.google.com/deploy-info: '{"partner_id": "agilebits", "product_id": "op-scim-bridge", "partner_name": "1Password"}'
-  labels: &ScimApplicationLabels
+  labels:
     app.kubernetes.io/name: "{{ .Values.name }}"
 spec:
   descriptor:
@@ -30,15 +30,20 @@ spec:
     type: Reference
     valueFrom:
       serviceRef:
-        name: "{{ .Values.name }}-op-scim-bridge"
-        fieldPath: status.loadBalancer.ingress[0].ip
-        protocol: HTTP
+        name: "{{ .Values.name }}-bridge-svc"
   selector:
-    matchLabels: *ScimApplicationLabels
+    matchLabels:
+      app.kubernetes.io/name: "{{ .Values.name }}"
   componentKinds:
+  - group: v1
+    kind: PersistentVolume
+  - group: v1
+    kind: PersistentVolumeClaim
   - group: apps/v1
-    kind: StatefulSet
-  - group: batch/v1beta1
-    kind: CronJob
+    kind: Deployment
+  - group: v1
+    kind: Secret
   - group: v1
     kind: Service
+  - group: batch/v1beta1
+    kind: CronJob

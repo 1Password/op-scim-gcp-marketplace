@@ -15,6 +15,3 @@ FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm/onbuild:$MARKETPLACE_TOOLS
 
 COPY --from=build /tmp/test/chart.tar.gz /data-test/chart/
 COPY --from=build /tmp/apptest/schema.yaml /data-test/
-
-ENV WAIT_FOR_READY_TIMEOUT 300
-ENV TESTER_TIMEOUT 300
