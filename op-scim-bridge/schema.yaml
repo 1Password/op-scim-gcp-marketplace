@@ -15,7 +15,7 @@ x-google-marketplace:
       type: STRICT
       gke:
         nodePool:
-        - numNodes: 3
+        - numNodes: 2
           machineType: e2-small
           imageType: COS_CONTAINERD
     resources:
