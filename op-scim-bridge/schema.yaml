@@ -17,6 +17,7 @@ x-google-marketplace:
         nodePool:
         - numNodes: 3
           machineType: e2-small
+          imageType: COS_CONTAINERD
     resources:
       - replicas: 1
         requests:
