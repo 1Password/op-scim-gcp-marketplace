@@ -35,8 +35,6 @@ spec:
     matchLabels: *ScimApplicationLabels
   componentKinds:
   - group: v1
-    kind: PersistentVolume
-  - group: v1
     kind: PersistentVolumeClaim
   - group: apps/v1
     kind: Deployment
