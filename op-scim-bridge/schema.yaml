@@ -1,32 +1,81 @@
-application_api_version: v1beta1
+x-google-marketplace:
+  schemaVersion: v2
+  applicationApiVersion: v1beta1
+  publishedVersion: "2.0.0"
+  publishedVersionMetadata:
+    releaseNote: >-
+      Refer to the SCIM bridge release notes.
+
+      https://app-updates.agilebits.com/product_history/SCIM
+    releaseTypes:
+      - Feature
+    recommended: true
+  clusterConstraints:
+    assistedClusterCreation:
+      type: STRICT
+      gke:
+        nodePool:
+        - numNodes: 2
+          machineType: e2-small
+          imageType: COS_CONTAINERD
+    resources:
+      - replicas: 1
+        requests:
+          cpu: 200m
+          memory: 2Gi
+        affinity:
+          simple NodeAffinity:
+            type: REQUIRE_ONE_NODE_PER_REPLICA
+            minimumNodeCount: 1
+
+  images:
+    '':
+      properties:
+        bridge.image.repository:
+          type: REPO_WITH_REGISTRY
+        bridge.image.tag:
+          type: TAG
+    redis:
+      properties:
+        redis.image.repository:
+          type: REPO_WITH_REGISTRY
+        redis.image.tag:
+          type: TAG
+  istio:
+    type: UNSUPPORTED
+
 properties:
-  APP_INSTANCE_NAME:
+  name:
     type: string
     x-google-marketplace:
       type: NAME
-  NAMESPACE:
+  namespace:
     type: string
     x-google-marketplace:
       type: NAMESPACE
-  IMAGE_OP_SCIM:
-    type: string
-    default: $REGISTRY:$TAG
-    x-google-marketplace:
-      type: IMAGE
-  IMAGE_REDIS:
-    type: string
-    default: $REGISTRY/redis:$TAG
-    x-google-marketplace:
-      type: IMAGE
-  OP_ACCOUNT_DOMAIN:
+  accountDomain:
     title: 1Password sign-in address
     description: >-
       "Your 1Password sign-in address. For example: example.1password.com"
     type: string
     default: example.1password.com
+  scim.serviceAccount:
+    type: string
+    title: Kubernetes Service Account
+    x-google-marketplace:
+      type: SERVICE_ACCOUNT
+      serviceAccount:
+        description: Service account to manage your Kubernetes cluster
+        roles:
+        - type: ClusterRole
+          rulesType: CUSTOM
+          rules:
+          - apiGroups: ["", "batch"]
+            resources: ["jobs"]
+            verbs: ["get", "list", "delete"]
+
 required:
-- APP_INSTANCE_NAME
-- NAMESPACE
-- IMAGE_OP_SCIM
-- IMAGE_REDIS
-- OP_ACCOUNT_DOMAIN
+- name
+- namespace
+- accountDomain
+- scim.serviceAccount

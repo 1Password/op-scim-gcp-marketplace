@@ -1,0 +1,46 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: "{{ .Values.name }}"
+  namespace: "{{ .Values.namespace }}"
+  annotations:
+    kubernetes-engine.cloud.google.com/icon: >-
+      data:image/png;base64,{{ .Files.Get "logo.png" | b64enc }}
+    marketplace.cloud.google.com/deploy-info: '{"partner_id": "agilebits", "product_id": "op-scim-bridge", "partner_name": "1Password"}'
+  labels: &ScimApplicationLabels
+    app.kubernetes.io/name: "{{ .Values.name }}"
+spec:
+  descriptor:
+    type: SCIM bridge
+    version: "{{ .Values.bridge.image.tag }}"
+    description: >-
+      Use the 1Password SCIM bridge to integrate 1Password with your identity provider for automated provisioning.
+
+      For more information, contact your 1Password Business representative. To get help and share feedback, join the discussion in the [1Password Support forum](https://discussions.agilebits.com/categories/scim).
+    maintainers:
+    - name: 1Password
+      url: https://1password.com
+    links:
+    - description: "1Password SCIM bridge: Get started"
+      url: https://support.1password.com/scim
+    notes: |-
+      To complete the setup process, click the 1Password SCIM bridge public IP.
+  info:
+  - name: 1Password SCIM bridge public IP
+    type: Reference
+    valueFrom:
+      serviceRef:
+        name: "{{ .Values.name }}-op-scim-bridge-svc"
+  selector:
+    matchLabels: *ScimApplicationLabels
+  componentKinds:
+  - group: v1
+    kind: PersistentVolumeClaim
+  - group: apps/v1
+    kind: Deployment
+  - group: v1
+    kind: Secret
+  - group: v1
+    kind: Service
+  - group: batch/v1beta1
+    kind: CronJob

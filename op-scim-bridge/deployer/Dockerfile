@@ -1,3 +1,4 @@
+ARG MARKETPLACE_TOOLS_TAG
 FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm AS build
 
 ADD apptest/deployer/op-scim-bridge /tmp/test/chart
@@ -10,7 +11,10 @@ RUN cat /tmp/apptest/schema.yaml \
     > /tmp/apptest/schema.yaml.new \
     && mv /tmp/apptest/schema.yaml.new /tmp/apptest/schema.yaml
 
-FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm/onbuild:0.9.10
+FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm/onbuild:$MARKETPLACE_TOOLS_TAG
 
 COPY --from=build /tmp/test/chart.tar.gz /data-test/chart/
 COPY --from=build /tmp/apptest/schema.yaml /data-test/
+
+ENV WAIT_FOR_READY_TIMEOUT 300
+ENV TESTER_TIMEOUT 300

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}-op-scim-redis
+  namespace: {{ .Values.namespace }}
+  labels: &RedisDeploymentLabels
+    app.kubernetes.io/name: {{ .Values.name }}
+    app.kubernetes.io/component: op-scim-redis
+spec:
+  selector:
+    matchLabels: *RedisDeploymentLabels
+  replicas: 1
+  template:
+    metadata:
+      labels: *RedisDeploymentLabels
+    spec:
+      containers:
+      - name: op-scim-redis
+        image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6379
