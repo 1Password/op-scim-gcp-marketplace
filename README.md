@@ -55,13 +55,13 @@ Using the makefile, one can create a push a new image to the Google Container Re
 - `TAG` - private tag/version. Useful for testing, but this should mirror the PUBLIC_TAG when releasing.
 
 ```bash
-REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=2.0.0 TAG=2.0.0 make app/build
+REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=2.0.1 TAG=2.0.1 make app/build
 ```
 
 Alternatively, to build a testing build, you can specify a testing tag:
 
 ```bash
-REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=2.0.0 TAG=test-vendoring make app/build
+REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=2.0.1 TAG=test-vendoring make app/build
 ```
 
 ## `mpdev`
@@ -90,15 +90,15 @@ You can validate your installation by running `mpdev doctor`
 
 It is now possible to use `mpdev` to install our application on your Kubernetes cluster on GCP. This allows you to test our application outside of the marketplace.
 
-As defined in [schema.yaml](./op-scim-bridge/schema.yaml) our application requires three arguments: `name`, `namespace`, and `accountDomain`. These parallel the values chosen in the user interface when deploying from the Marketplace. 
+As defined in [schema.yaml](./op-scim-bridge/schema.yaml) our application requires three arguments: `name`, `namespace`, and `accountDomain`. These parallel the values chosen in the user interface when deploying from the Marketplace.
 
 ```bash
 mpdev install --deployer=gcr.io/op-scim-bridge/op-scim-bridge/deployer:latest --parameters='{"name": "mpdev", "namespace": "default", "accountDomain": "testing.1password.com" }'
 ```
+
 Once this process completes, you can examine your new SCIM Bridge on GCP using kubectl or via the GCP Console in the browser.
 
 ## Verify
-
 
 `mpdev` verify runs the verification test image created from the `apptest` folder. This is set at a deployer tag. Run verification like so:
 
