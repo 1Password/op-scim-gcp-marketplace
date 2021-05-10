@@ -1,7 +1,7 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "2.0.0"
+  publishedVersion: "2.0.1"
   publishedVersionMetadata:
     releaseNote: >-
       Refer to the SCIM bridge release notes.
@@ -15,9 +15,9 @@ x-google-marketplace:
       type: STRICT
       gke:
         nodePool:
-        - numNodes: 2
-          machineType: e2-small
-          imageType: COS_CONTAINERD
+          - numNodes: 2
+            machineType: e2-small
+            imageType: COS_CONTAINERD
     resources:
       - replicas: 1
         requests:
@@ -29,7 +29,7 @@ x-google-marketplace:
             minimumNodeCount: 1
 
   images:
-    '':
+    "":
       properties:
         bridge.image.repository:
           type: REPO_WITH_REGISTRY
@@ -67,15 +67,15 @@ properties:
       serviceAccount:
         description: Service account to manage your Kubernetes cluster
         roles:
-        - type: ClusterRole
-          rulesType: CUSTOM
-          rules:
-          - apiGroups: ["", "batch"]
-            resources: ["jobs"]
-            verbs: ["get", "list", "delete"]
+          - type: ClusterRole
+            rulesType: CUSTOM
+            rules:
+              - apiGroups: ["", "batch"]
+                resources: ["jobs"]
+                verbs: ["get", "list", "delete"]
 
 required:
-- name
-- namespace
-- accountDomain
-- scim.serviceAccount
+  - name
+  - namespace
+  - accountDomain
+  - scim.serviceAccount
