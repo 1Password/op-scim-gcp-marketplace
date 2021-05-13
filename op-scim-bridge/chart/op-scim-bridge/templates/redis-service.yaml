@@ -7,8 +7,8 @@ metadata:
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: op-scim-redis
 spec:
+  type: ClusterIP
   ports:
   - name: op-scim-redis
     port: 6379
   selector: *OpScimRedisServiceLabels
-  clusterIP: None
