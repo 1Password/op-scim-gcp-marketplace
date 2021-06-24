@@ -30,17 +30,15 @@ spec:
     type: Reference
     valueFrom:
       serviceRef:
-        name: "{{ .Values.name }}-op-scim-bridge-svc"
+        name: "{{ .Values.name }}-op-scim-bridge"
+        fieldPath: status.loadBalancer.ingress[0].ip
+        protocol: HTTP
   selector:
     matchLabels: *ScimApplicationLabels
   componentKinds:
-  - group: v1
-    kind: PersistentVolumeClaim
   - group: apps/v1
-    kind: Deployment
-  - group: v1
-    kind: Secret
-  - group: v1
-    kind: Service
+    kind: StatefulSet
   - group: batch/v1beta1
     kind: CronJob
+  - group: v1
+    kind: Service
