@@ -51,6 +51,7 @@ app/build:: .build/op-scim/deployer \
 							   .build/var/PUBLIC_TAG \
 							   | .build/op-scim
 	$(call print_target, $@)
+	docker pull "1password/scim:v$(PUBLIC_TAG)"
 	docker tag "1password/scim:v$(PUBLIC_TAG)" "$(REGISTRY)/op-scim-bridge:$(TAG)"
 	docker push "$(REGISTRY)/op-scim-bridge:$(TAG)"
 	@touch "$@"
