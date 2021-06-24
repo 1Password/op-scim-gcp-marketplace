@@ -18,15 +18,6 @@ x-google-marketplace:
           - numNodes: 2
             machineType: e2-small
             imageType: COS_CONTAINERD
-    resources:
-      - replicas: 1
-        requests:
-          cpu: 200m
-          memory: 2Gi
-        affinity:
-          simple NodeAffinity:
-            type: REQUIRE_ONE_NODE_PER_REPLICA
-            minimumNodeCount: 1
 
   images:
     "":
