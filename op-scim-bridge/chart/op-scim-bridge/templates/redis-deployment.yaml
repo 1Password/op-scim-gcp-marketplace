@@ -27,6 +27,6 @@ spec:
             memory: 512M
         env:
         - name: "REDIS_ARGS"
-          value: - "--maxmemory 256mb --maxmemory-policy volatile-lru"
+          value: "--maxmemory 256mb --maxmemory-policy volatile-lru"
         ports:
         - containerPort: 6379
