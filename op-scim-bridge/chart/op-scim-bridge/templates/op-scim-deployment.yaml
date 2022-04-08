@@ -34,6 +34,13 @@ spec:
         image: {{ .Values.bridge.image.repository }}:{{ .Values.bridge.image.tag }}
         imagePullPolicy: Always
         command: ["/op-scim/op-scim"]
+        resources:
+          requests:
+            cpu: 125m
+            memory: 256M
+          limits:
+            cpu: 250m
+            memory: 512M
         env:
         - name: "OP_PORT"
           value: "8080"
