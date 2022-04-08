@@ -18,5 +18,15 @@ spec:
       - name: op-scim-redis
         image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
         imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 125m
+            memory: 256M
+          limits:
+            cpu: 250m
+            memory: 512M
+        env:
+        - name: "REDIS_ARGS"
+          value: - "--maxmemory 256mb --maxmemory-policy volatile-lru"
         ports:
         - containerPort: 6379
