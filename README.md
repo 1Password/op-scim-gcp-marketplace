@@ -55,7 +55,7 @@ Using the makefile, one can create a push a new image to the Google Container Re
 - `TAG` - private tag/version. Useful for testing, but this should mirror the PUBLIC_TAG when releasing.
 
 ```bash
-REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=2.3.1 TAG=2.3.1 make app/build
+REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=2.4.0 TAG=2.4.0 make app/build
 ```
 
 Alternatively, to build a testing build, you can specify a testing tag:
