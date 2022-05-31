@@ -61,7 +61,7 @@ REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=2.4.0 TAG=2.4.0 make app/build
 Alternatively, to build a testing build, you can specify a testing tag:
 
 ```bash
-REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=2.3.1 TAG=test-vendoring make app/build
+REGISTRY="YOUR_REGISTRY" PUBLIC_TAG=2.4.0 TAG=test-vendoring make app/build
 ```
 
 ## `mpdev`
