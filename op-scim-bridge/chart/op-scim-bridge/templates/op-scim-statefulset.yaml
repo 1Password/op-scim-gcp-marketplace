@@ -28,7 +28,7 @@ spec:
               topologyKey: "kubernetes.io/hostname"
       initContainers:
       - name: scimuser-permissions
-        image: alpine:3.13
+        image: alpine:3.16
         command: ["/bin/sh", "-c"]
         args: ["mkdir -p {{ .Values.scim.filePath }}/{{ .Values.scim.userName }} && chown -R {{ .Values.scim.userId }} {{ .Values.scim.filePath }}/{{ .Values.scim.userName }}"]
         volumeMounts:
@@ -38,13 +38,24 @@ spec:
       - name: op-scim-bridge
         image: {{ .Values.bridge.image.repository }}:{{ .Values.bridge.image.tag }}
         command: ["/op-scim/op-scim"]
+        resources:
+          requests:
+            cpu: 125m
+            memory: 256M
+          limits:
+            cpu: 250m
+            memory: 512M
         env:
         - name: "OP_PORT"
           value: "8080"
         - name: "OP_SESSION"
           value: "{{ .Values.scim.filePath }}/{{ .Values.scim.userName }}/scimsession"
-        - name: "OP_REDIS_HOST"
-          value: "{{ .Values.name }}-op-scim-redis"
+        - name: "OP_WORKSPACE_SETTINGS"
+          value: "{{ .Values.scim.filePath }}/{{ .Values.scim.userName }}/workspace-settings.json"
+        - name: "OP_WORKSPACE_CREDENTIALS"
+          value: "{{ .Values.scim.filePath }}/{{ .Values.scim.userName }}/workspace-credentials.json"
+        - name: "OP_REDIS_URL"
+          value: "redis://{{ .Values.name }}-op-scim-redis-svc:6379"
         - name: "OP_ONE_CLICK"
           value: "true"
         - name: "OP_DOMAIN"

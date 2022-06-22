@@ -17,7 +17,7 @@ APP_PARAMETERS ?= { \
 }
 APP_TEST_PARAMETERS ?= {}
 
-include ../tools/app_v2.Makefile
+include ../tools/app.Makefile
 
 app/build:: .build/op-scim/deployer \
 			.build/op-scim/op-scim-redis \
