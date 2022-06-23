@@ -1,5 +1,5 @@
 ARG MARKETPLACE_TOOLS_TAG
-FROM marketplace.gcr.io/google/debian10 AS build
+FROM marketplace.gcr.io/google/debian11 AS build
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gettext
@@ -28,6 +28,11 @@ RUN cat /tmp/apptest/schema.yaml \
     && mv /tmp/apptest/schema.yaml.new /tmp/apptest/schema.yaml
 
 FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm:$MARKETPLACE_TOOLS_TAG
+
+RUN apt-get update \
+	&& apt-get -y upgrade \
+	&& rm -rf /var/lib/apt/lists/*
+
 COPY --from=build /tmp/op-scim-bridge.tar.gz /data/chart/
 COPY --from=build /tmp/test/op-scim-bridge.tar.gz /data-test/chart/
 COPY --from=build /tmp/apptest/schema.yaml /data-test/
