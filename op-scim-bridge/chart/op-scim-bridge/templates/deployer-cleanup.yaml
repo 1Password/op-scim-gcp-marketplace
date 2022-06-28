@@ -12,6 +12,7 @@ spec:
   failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
+      backoffLimit: 10
       template:
         metadata:
           labels: *CronLabels
@@ -42,11 +43,12 @@ metadata:
 data:
     delete-deployer.sh: |-
       set -e
-      deployer_completed=$(kubectl get jobs -n {{ .Values.namespace }} | awk '$1 ~ /{{ .Values.name }}-deployer/ && $2 ~ /1.*1/ { print $1 }' 2>/dev/null) # determine if the deployer is running AND complete
+      deployer_job_name=$(kubectl get jobs -n {{ .Values.namespace }} | awk '$1 ~ /{{ .Values.name }}-deployer/ && $2 ~ /1.*1/ { print $1 }' 2>/dev/null) # determine if the deployer is running
+      completed=$(kubectl -n {{ .Values.namespace }} describe job $deployer_job_name | grep 'Completed At' 2>/dev/null)
       echo "checking for deployer"
-      if [[ "$deployer_completed" ]]; then
+      if [[ "$completed" ]]; then
         echo "deployer detected, deleting"
-        kubectl delete jobs -n {{ .Values.namespace }} $deployer_completed 2>/dev/null; # delete the job with the correct name
+        kubectl delete jobs -n {{ .Values.namespace }} $deployer_job_name 2>/dev/null; # delete the job with the correct name
       else
         echo "deployer not detected, skipping"
       fi
