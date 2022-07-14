@@ -1,0 +1,6 @@
+dependencies:
+- name: op-scim-bridge
+  repository: https://1password.github.io/op-scim-helm/
+  version: 2.5.0
+digest: sha256:880ddeb76b5f364a2f3f8c7960ed1fa0ac79eaedbcb6accc52d78a89daec1035
+generated: "2022-07-14T15:09:55.825934-07:00"

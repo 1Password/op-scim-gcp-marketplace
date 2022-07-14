@@ -1,14 +1,2 @@
-bridge:
-  image:
-    repo: null
-    tag: null
-redis:
-  image:
-    repo: null
-    tag: null
-
-scim:
-  userId: 999
-  userName: scimuser
-  filePath: /home
-  serviceAccount: null
+# use this to override upstream values
+# see https://github.com/1Password/op-scim-helm/blob/main/charts/op-scim-bridge/values.yaml for details
