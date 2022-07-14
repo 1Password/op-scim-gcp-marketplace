@@ -4,7 +4,7 @@ FROM marketplace.gcr.io/google/debian11 AS build
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gettext
 
-ADD chart/op-scim-bridge /tmp/chart
+ADD chart/op-scim-bridge-mp /tmp/chart
 RUN cd /tmp && tar -czvf /tmp/op-scim-bridge.tar.gz chart
 
 ADD apptest/deployer/op-scim-bridge /tmp/test/chart
