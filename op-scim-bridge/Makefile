@@ -1,8 +1,5 @@
 APP_ID ?= 1password/op-scim-bridge
 TAG ?= latest
-PUBLIC_TAG ?= latest
-$(info ---- TAG = $(TAG))
-$(info ---- PUBLIC_TAG = $(PUBLIC_TAG))
 
 include ../tools/gcloud.Makefile
 include ../tools/var.Makefile
@@ -21,9 +18,7 @@ APP_TEST_PARAMETERS ?= {}
 
 include ../tools/app.Makefile
 
-app/build:: .build/op-scim/deployer \
-			.build/op-scim/op-scim-redis \
-			.build/op-scim/op-scim-bridge
+app/build:: .build/op-scim/deployer
 
 .build/op-scim: | .build
 	mkdir -p "$@"
@@ -46,31 +41,6 @@ app/build:: .build/op-scim/deployer \
 		-f deployer/Dockerfile \
 		.
 	docker push "$(APP_DEPLOYER_IMAGE)"
-	@touch "$@"
-
-.build/op-scim/op-scim-bridge: .build/var/REGISTRY \
-							   .build/var/TAG \
-							   .build/var/PUBLIC_TAG \
-							   | .build/op-scim
-	$(call print_target, $@)
-	docker build \
-		--build-arg PUBLIC_TAG="$(PUBLIC_TAG)" \
-		--tag "$(APP_IMAGE)" \
-		.
-	# docker pull "1password/scim:v$(PUBLIC_TAG)"
-	# docker tag "1password/scim:v$(PUBLIC_TAG)" "$(REGISTRY)/op-scim-bridge:$(TAG)"
-	docker push "$(APP_IMAGE)"
-	@touch "$@"
-
-.build/op-scim/op-scim-redis: .build/var/REGISTRY \
-							  .build/var/TAG \
-							  | .build/op-scim
-	$(call print_target, $@)
-	docker build \
-		--file redis/Dockerfile \
-		--tag "$(APP_REDIS_IMAGE)" \
-		.
-	docker push "$(APP_REDIS_IMAGE)"
 	@touch "$@"
 
 app/test:
