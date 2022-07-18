@@ -6,7 +6,6 @@ include ../tools/var.Makefile
 
 APP_IMAGE ?= $(REGISTRY)/op-scim-bridge:$(TAG)
 APP_DEPLOYER_IMAGE ?= $(REGISTRY)/op-scim-bridge/deployer:$(TAG)
-APP_REDIS_IMAGE ?= $(REGISTRY)/op-scim-bridge/redis:$(TAG)
 APP_GCS_PATH ?= $(GCS_URL)/$(APP_ID)/$(TAG)
 CHART_NAME ?= op-scim-bridge
 NAME ?= op-scim-bridge
