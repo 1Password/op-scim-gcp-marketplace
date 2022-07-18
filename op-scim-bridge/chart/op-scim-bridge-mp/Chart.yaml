@@ -16,6 +16,6 @@ sources:
   - https://app-updates.agilebits.com/product_history/SCIM
 appVersion: v2.6.0
 dependencies:
-- name: op-scim-bridge
-  version: ~2
-  repository: https://1password.github.io/op-scim-helm/
+  - name: op-scim-bridge
+    version: ~2
+    repository: https://1password.github.io/op-scim-helm/
