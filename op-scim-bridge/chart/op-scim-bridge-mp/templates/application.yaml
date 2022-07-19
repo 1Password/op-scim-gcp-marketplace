@@ -46,3 +46,7 @@ spec:
     kind: CronJob
   - group: v1
     kind: ServiceAccount
+  - group: v1
+    kind: Role
+  - group: v1
+    kind: RoleBinding

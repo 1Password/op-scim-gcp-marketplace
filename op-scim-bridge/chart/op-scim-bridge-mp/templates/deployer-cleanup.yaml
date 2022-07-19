@@ -1,3 +1,37 @@
+--- # service account for cleanup jon
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "{{ .Values.name }}-cleanup-sa"
+  namespace: {{ .Values.namespace }}
+--- # permissions for cleanup job
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: "{{ .Values.name }}-cleanup-role"
+  namespace: {{ .Values.namespace }}
+rules:
+  - apiGroups:
+      - "" # "" indicates the core API group
+      - batch
+    resources:
+      - jobs
+    verbs: ["get", "list", "delete"]
+--- # add permissions to service account
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: "{{ .Values.name }}-cleanup-rolebinding"
+  namespace: {{ .Values.namespace }} 
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: "{{ .Values.name }}-cleanup-role"
+subjects:
+- namespace: {{ .Values.namespace }} 
+  kind: ServiceAccount
+  name: "{{ .Values.name }}-cleanup-sa"
+--- # clean up job definition
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -7,16 +41,20 @@ metadata:
     app.kubernetes.io/name: {{ .Values.name }}
     app.kubernetes.io/component: cleanup
 spec:
-  schedule: "*/1 * * * *" # once a minute
-  successfulJobsHistoryLimit: 0
+  schedule: "*/10 * * * *" # every 10 minutes
+  successfulJobsHistoryLimit: 0 # can be set to 1 for debugging to see logs of successful jobs
   failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
+      parallelism: 1 # how many pods will be instantiated at once
+      completions: 1 # how many containers of the job are instantiated one after the other (sequentially) inside the pod
+      backoffLimit: 1 # maximum pod restarts in case of failure
+      activeDeadlineSeconds: 300 # limit the time for which a Job can continue to run; 5 minutes
       template:
         metadata:
           labels: *CronLabels
         spec:
-          serviceAccountName: {{ .Values.scim.serviceAccount }}
+          serviceAccountName: "{{ .Values.name }}-cleanup-sa"
           containers:
           - name: kubectl-runner
             image: bitnami/kubectl
@@ -26,11 +64,12 @@ spec:
             command: ["/bin/bash"]
             args: ["/cleanup/delete-deployer.sh"]
           restartPolicy: Never
+          terminationGracePeriodSeconds: 30
           volumes:
           - name: config-volume
             configMap:
               name: "{{ .Values.name }}-cleanup-script"
----
+--- # clean up job script definition
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -40,16 +79,25 @@ metadata:
     app.kubernetes.io/name: "{{ .Values.name }}"
     app.kubernetes.io/component: cleanup-script
 data:
-    delete-deployer.sh: |-
-      set -e
-      deployer_job=$(kubectl get jobs -n {{ .Values.namespace }} | awk '$1 ~ /{{ .Values.name }}-deployer/ && $2 ~ /1.*1/ { print $1 }' 2>/dev/null) # determine if the deployer is running
-      completed_at=$(kubectl -n {{ .Values.namespace }} describe job $deployer_job | grep 'Completed At' 2>/dev/null)
-      echo "checking for deployer"
-      if [[ "$completed_at" ]]; then
-        sleep 60 # wait for mpdev to finish verifying
-        echo "deployer detected, deleting"
-        kubectl delete jobs -n {{ .Values.namespace }} $deployer_job 2>/dev/null; # delete the job with the correct name
-      else
-        echo "deployer not completed, skipping"
-      fi
+  delete-deployer.sh: |-
+    set -e
+    
+    deployer_job=$(kubectl get jobs -n {{ .Values.namespace }} | awk -v name={{ .Values.name }}-deployer '$1 ~ name && $2 ~ /1.*1/ { print $1 }' 2>/dev/null)
+    echo "checking for deployer job"
+    if [[ "$deployer_job" ]]; then
+      echo "deployer job found: $deployer_job"
+    else
+      echo "no deployer job found, skipping"
       exit 0
+    fi
+
+    completed_at=$(kubectl -n {{ .Values.namespace }} describe job $deployer_job | grep 'Completed At' 2>/dev/null)
+    echo "checking if deployer job completed"
+    if [[ "$completed_at" ]]; then
+      echo "deployer job completed, deleting"
+      kubectl delete jobs -n {{ .Values.namespace }} $deployer_job
+    else
+      echo "deployer job not completed, skipping"
+    fi
+
+    exit 0
