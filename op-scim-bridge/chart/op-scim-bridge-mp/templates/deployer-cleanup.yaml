@@ -42,7 +42,7 @@ metadata:
     app.kubernetes.io/component: cleanup
 spec:
   schedule: "*/10 * * * *" # every 10 minutes
-  successfulJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 0 # can be set to 1 for debugging to see logs of successful jobs
   failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
