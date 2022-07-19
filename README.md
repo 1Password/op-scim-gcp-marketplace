@@ -107,12 +107,11 @@ As defined in [schema.yaml](./op-scim-bridge/schema.yaml) our application requir
 - `name`
 - `namespace`
 - `accountDomain`
-- `scim.serviceAccount`
  
 These parallel the values chosen in the user interface when deploying from the Marketplace.
 
 ```bash
-mpdev install --deployer=gcr.io/op-scim-bridge/op-scim-bridge/deployer:latest --parameters='{"name": "mpdev", "namespace": "default", "accountDomain": "testing.1password.com", "scim.serviceAccount": "op-scim-bridge-deployer-sa" }'
+mpdev install --deployer=gcr.io/op-scim-bridge/op-scim-bridge/deployer:latest --parameters='{"name": "mpdev", "namespace": "default", "accountDomain": "testing.1password.com" }'
 ```
 
 Once this process completes, you can examine your new SCIM Bridge on GCP using kubectl or via the GCP Console in the browser.
