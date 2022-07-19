@@ -44,3 +44,5 @@ spec:
     kind: Service
   - group: batch/v1beta1
     kind: CronJob
+  - group: v1
+    kind: ServiceAccount
