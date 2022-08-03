@@ -20,3 +20,9 @@ dependencies:
   - name: op-scim-bridge
     version: ~2
     repository: https://1password.github.io/op-scim-helm/
+    # allows the overriding of subschart values; see see https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
+    import-values:
+      - child: scim
+        parent: scim
+      - child: redis
+        parent: redis
