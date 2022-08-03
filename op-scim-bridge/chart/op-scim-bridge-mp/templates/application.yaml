@@ -30,7 +30,7 @@ spec:
     type: Reference
     valueFrom:
       serviceRef:
-        name: "{{ tpl .Values.name . }}-svc"
+        name: "{{ .Values.name }}-svc"
   selector:
     matchLabels: *ScimApplicationLabels
   componentKinds:
