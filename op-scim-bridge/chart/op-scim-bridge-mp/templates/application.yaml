@@ -12,7 +12,7 @@ metadata:
 spec:
   descriptor:
     type: SCIM bridge
-    version: "{{ .Values.bridge.image.tag }}"
+    version: "{{ .Chart.AppVersion }}"
     description: >-
       Use the 1Password SCIM bridge to integrate 1Password with your identity provider for automated provisioning.
 
@@ -30,7 +30,7 @@ spec:
     type: Reference
     valueFrom:
       serviceRef:
-        name: "{{ .Values.name }}-op-scim-bridge-svc"
+        name: "{{ tpl .Values.name . }}-svc"
   selector:
     matchLabels: *ScimApplicationLabels
   componentKinds:
