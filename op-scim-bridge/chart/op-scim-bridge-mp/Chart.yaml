@@ -14,8 +14,15 @@ maintainers:
 icon: https://1password.com/img/logo-v1.svg
 sources:
   - https://app-updates.agilebits.com/product_history/SCIM
-appVersion: v2.6.0
+# appVersion should match the value of publishedVersion in the schema.yaml
+appVersion: "2.5.0"
 dependencies:
   - name: op-scim-bridge
     version: ~2
     repository: https://1password.github.io/op-scim-helm/
+    # allows the overriding of subschart values; see see https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
+    import-values:
+      - child: scim
+        parent: scim
+      - child: redis
+        parent: redis

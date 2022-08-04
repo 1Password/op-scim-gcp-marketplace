@@ -1,8 +1,11 @@
-# use this to override upstream values
-# note that this file cannot be empty; see https://github.com/GoogleCloudPlatform/marketplace-k8s-app-tools/issues/479
+# define values to override those defined in subcharts (dependencies); see https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
 
 # see https://github.com/1Password/op-scim-helm/blob/main/charts/op-scim-bridge/values.yaml for details
-scim: {}
+# scim:
 
 # see https://github.com/bitnami/charts/tree/master/bitnami/redis for details
-redis: {}
+# redis:
+
+# note that this file cannot be empty or mpdev verify will fail, hence the placeholder value;
+# see https://github.com/GoogleCloudPlatform/marketplace-k8s-app-tools/issues/479
+placeholder: {}
