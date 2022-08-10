@@ -30,7 +30,7 @@ spec:
     type: Reference
     valueFrom:
       serviceRef:
-        name: "{{ .Values.name }}-svc"
+        name: '{{ template "common.names.fullname" . }}-svc'
   selector:
     matchLabels: *ScimApplicationLabels
   componentKinds:

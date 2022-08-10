@@ -1,11 +1,11 @@
 # define values to override those defined in subcharts (dependencies); see https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
+# op-scim-bridge:
+  # see https://github.com/1Password/op-scim-helm/blob/main/charts/op-scim-bridge/values.yaml for details
+  # scim:
+  # see https://github.com/bitnami/charts/tree/master/bitnami/redis for details
+  # redis:
 
-# see https://github.com/1Password/op-scim-helm/blob/main/charts/op-scim-bridge/values.yaml for details
-# scim:
-
-# see https://github.com/bitnami/charts/tree/master/bitnami/redis for details
-# redis:
-
-# note that this file cannot be empty or mpdev verify will fail, hence the placeholder value;
-# see https://github.com/GoogleCloudPlatform/marketplace-k8s-app-tools/issues/479
-placeholder: {}
+# nameOverride needs to be set to ensure that the public IP reference defined in application.yaml works as expected;
+# otherwise the chart name "op-scim-bridge-mp" is used instead and the end result is "Referenced object not found"
+# is shown in the GCP console instead of the external IP of the service
+nameOverride: op-scim-bridge
