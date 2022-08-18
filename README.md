@@ -54,6 +54,10 @@ Updating the version of the SCIM bridge involves a few steps that are described 
 
 See [Updating the SCIM bridge version](./op-scim-bridge/chart/op-scim-bridge-mp/README.md#updating-the-scim-bridge-version) for details.
 
+Note that if there is a major version change of the bundled dependencies (i.e. the SCIM bridge or bitnami/redis), then we should also update the major version number of the following corresponding variables in the [op-scim-bridge/push-dep-image-tags.sh](op-scim-bridge/push-dep-image-tags.sh) script:
+- `OP_SCIM_BRIDGE_HELM_VERSION`
+- `BITNAMI_REDIS_HELM_VERSION`
+
 ## Building a New Image
 
 Using the makefile, one can create a push a new image to the Google Container Registry (GCR). To do so, one must declare environment variables:
