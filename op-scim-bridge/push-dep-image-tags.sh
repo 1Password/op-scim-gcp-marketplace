@@ -3,13 +3,13 @@
 if ! command -v helm &> /dev/null
 then
   echo "helm could not be found"
-  exit
+  exit 1
 fi
 
 if ! command -v jq &> /dev/null
 then
   echo "jq could not be found"
-  exit
+  exit 1
 fi
 
 echo "adding 1password Helm repo"
