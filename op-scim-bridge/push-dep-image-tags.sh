@@ -20,7 +20,7 @@ echo "adding bitnami Helm repo"
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update bitnami
 
-# OP_SCIM_BRIDGE_HELM_VERSION should the "op-scim-bridge" dependency verion in 
+# OP_SCIM_BRIDGE_HELM_VERSION should the "op-scim-bridge" dependency version in 
 # https://github.com/1Password/op-scim-gcp-marketplace/blob/master/op-scim-bridge/chart/op-scim-bridge-mp/Chart.yaml
 if [[ -z "${OP_SCIM_BRIDGE_HELM_VERSION}" ]]; then
   OP_SCIM_BRIDGE_HELM_VERSION="^2"
@@ -32,7 +32,7 @@ OP_SCIM_BRIDGE_TAG=$(helm search repo 1password/op-scim-bridge --version ${OP_SC
 OP_SCIM_BRIDGE_IMAGE=${OP_SCIM_BRIDGE_REPO}:${OP_SCIM_BRIDGE_TAG}
 echo "scim bridge image: ${OP_SCIM_BRIDGE_IMAGE}"
 
-# BITNAMI_REDIS_HELM_VERSION should match the "redis" dependency verion in 
+# BITNAMI_REDIS_HELM_VERSION should match the "redis" dependency version in 
 # https://github.com/1Password/op-scim-helm/blob/main/charts/op-scim-bridge/Chart.yaml
 if [[ -z "${BITNAMI_REDIS_HELM_VERSION}" ]]; then
   BITNAMI_REDIS_HELM_VERSION="^16"
