@@ -32,7 +32,7 @@ subjects:
   kind: ServiceAccount
   name: "{{ .Values.name }}-cleanup-sa"
 --- # clean up job definition
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: "{{ .Values.name }}-cleanup" # deletes stale deployers to improve upgradeability of the SCIM bridge
