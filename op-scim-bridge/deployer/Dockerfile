@@ -30,7 +30,7 @@ RUN cat /tmp/apptest/schema.yaml \
 FROM gcr.io/cloud-marketplace-tools/k8s/deployer_helm:$MARKETPLACE_TOOLS_TAG
 
 RUN apt-get update \
-	&& apt-get -y upgrade \
+	&& apt-get -y -qq full-upgrade \
 	&& rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /tmp/op-scim-bridge.tar.gz /data/chart/
