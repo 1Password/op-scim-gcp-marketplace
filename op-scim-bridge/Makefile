@@ -48,5 +48,8 @@ app/build:: .build/check/docker .build/op-scim/deployer .build/op-scim/deps
 .build/op-scim/deps:
 	./push-dep-image-tags.sh
 
+.build/op-scim:
+	mkdir -p .build/op-scim
+
 app/test:
 	mpdev /scripts/verify --deployer=gcr.io/op-scim-bridge/op-scim-bridge/deployer:${TAG}
