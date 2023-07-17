@@ -9,3 +9,9 @@
 # otherwise the chart name "op-scim-bridge-mp" is used instead and the end result is "Referenced object not found"
 # is shown in the GCP console instead of the external IP of the service
 nameOverride: op-scim-bridge
+scim:
+  credentials:
+    volume:
+      enabled: true
+    secrets:
+      enabled: false
