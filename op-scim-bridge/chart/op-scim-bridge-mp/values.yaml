@@ -13,5 +13,6 @@ scim:
   credentials:
     volume:
       enabled: true
+      storageClass: "-"
     secrets:
       enabled: false
