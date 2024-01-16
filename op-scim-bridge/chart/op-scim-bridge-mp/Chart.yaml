@@ -22,5 +22,5 @@ dependencies:
     repository: https://1password.github.io/op-scim-helm/
     condition: redis.enabled
   - name: common
-    version: ~1
+    version: ~2
     repository: https://charts.bitnami.com/bitnami

@@ -35,7 +35,7 @@ echo "scim bridge image: ${OP_SCIM_BRIDGE_IMAGE}"
 # BITNAMI_REDIS_HELM_VERSION should match the "redis" dependency version in 
 # https://github.com/1Password/op-scim-helm/blob/main/charts/op-scim-bridge/Chart.yaml
 if [[ -z "${BITNAMI_REDIS_HELM_VERSION}" ]]; then
-  BITNAMI_REDIS_HELM_VERSION="^17"
+  BITNAMI_REDIS_HELM_VERSION="^18"
   echo "BITNAMI_REDIS_HELM_VERSION not set; using default ${BITNAMI_REDIS_HELM_VERSION}"
 fi
 
