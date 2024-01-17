@@ -14,13 +14,12 @@ maintainers:
 icon: https://1password.com/img/logo-v1.svg
 sources:
   - https://app-updates.agilebits.com/product_history/SCIM
-# appVersion should match the value of publishedVersion in the schema.yaml
-appVersion: "2.8.4"
+appVersion: "2.9.0"
 dependencies:
   - name: op-scim-bridge
     version: ~2
     repository: https://1password.github.io/op-scim-helm/
     condition: redis.enabled
   - name: common
-    version: ~1
+    version: ~2
     repository: https://charts.bitnami.com/bitnami

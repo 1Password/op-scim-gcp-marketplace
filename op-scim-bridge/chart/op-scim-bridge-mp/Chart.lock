@@ -1,9 +1,9 @@
 dependencies:
 - name: op-scim-bridge
   repository: https://1password.github.io/op-scim-helm/
-  version: 2.10.5
+  version: 2.11.0
 - name: common
   repository: https://charts.bitnami.com/bitnami
-  version: 1.17.1
-digest: sha256:d4fd65ae096d9b92cfc3e2e6cef2740aa44db086c5ae10a8e1158c14d990d2be
-generated: "2023-10-17T15:40:54.355552-04:00"
+  version: 2.14.1
+digest: sha256:0c6bce776c04d2e0169a0de4484104687dde7afc5bebca16c195ed9a52356251
+generated: "2024-01-16T17:02:07.15744-06:00"

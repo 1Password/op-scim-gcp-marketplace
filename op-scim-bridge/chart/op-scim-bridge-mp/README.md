@@ -21,7 +21,7 @@ op-scim-bridge-mp
 └── values.yaml
 ```
 
-Generally the `Chart.yaml` describes the wrapper chart. For the most part we will only be updating the `appVersion` to match the version of the SCIM bridge (see [updating the SCIM bridge version](#updating-the-scim-bridge-version) below). We will on occation also update the dependency versions. This should be limited by the fact that we are specifying a version range (ex. `~2`) instead of a complete version number (ex. `2.5.0`).
+Generally the `Chart.yaml` describes the wrapper chart. For the most part we will only be updating the `appVersion` to match the version of the SCIM bridge (see [updating the SCIM bridge version](#updating-the-scim-bridge-version) below). We will on occasion also update the dependency versions. This should be limited by the fact that we are specifying a version range (ex. `~2`) instead of a complete version number (ex. `2.5.0`).
 
 The [values.yaml](./values.yaml) provides a means of overriding default configuration values that were set in the `1Password/op-scim-bridge` chart. Consult the `values.yaml` for [1Password/op-scim-bridge](https://github.com/1Password/op-scim-helm/blob/main/charts/op-scim-bridge/values.yaml) or [bitnami/redis](https://github.com/bitnami/charts/tree/master/bitnami/redis) for details on default values and available override options.
 
@@ -32,7 +32,7 @@ Lastly the templates can be combined with the values to produce valid Kubernetes
 
 ## Updating the SCIM bridge version
 
-Updating the version of the SCIM bridge involves a the following steps:
+Updating the version of the SCIM bridge involves the following steps:
 
 1. Confirm that the `op-scim-bridge` version of the [Chart.yaml](./Chart.yaml) is set to a range, i.e. `~2` instead of a hardcoded version such as `2.5.0`.
 2. Update the chart dependencies:
