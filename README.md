@@ -113,7 +113,7 @@ As defined in [schema.yaml](./op-scim-bridge/schema.yaml) our application requir
 - `name`
 - `namespace`
 - `accountDomain`
- 
+
 These parallel the values chosen in the user interface when deploying from the Marketplace.
 
 ```bash
