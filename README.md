@@ -54,6 +54,8 @@ Updating the version of the SCIM bridge involves a few steps that are described 
 
 See [Updating the SCIM bridge version](./op-scim-bridge/chart/op-scim-bridge-mp/README.md#updating-the-scim-bridge-version) for details.
 
+After that has been done, please ensure `publishedVersion` in [schema.yaml](./op-scim-bridge/schema.yaml) matches the `appVersion` in [Chart.yaml](./op-scim-bridge/chart/op-scim-bridge-mp/Chart.yaml), and that they both match the SCIM bridge docker image version we're updating to.
+
 Note that if there is a major version change of the bundled dependencies (i.e. the SCIM bridge or bitnami/redis), then we should also update the major version number of the following corresponding variables in the [op-scim-bridge/push-dep-image-tags.sh](op-scim-bridge/push-dep-image-tags.sh) script:
 - `OP_SCIM_BRIDGE_HELM_VERSION`
 - `BITNAMI_REDIS_HELM_VERSION`
