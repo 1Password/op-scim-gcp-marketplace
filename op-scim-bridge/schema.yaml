@@ -1,7 +1,7 @@
 x-google-marketplace:
   schemaVersion: v2
   applicationApiVersion: v1beta1
-  publishedVersion: "2.9.1"
+  publishedVersion: "2.9.3"
   publishedVersionMetadata:
     releaseNote: >-
       Refer to the SCIM bridge release notes.
