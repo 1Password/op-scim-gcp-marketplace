@@ -14,7 +14,7 @@ maintainers:
 icon: https://1password.com/img/logo-v1.svg
 sources:
   - https://app-updates.agilebits.com/product_history/SCIM
-appVersion: "2.9.3"
+appVersion: "2.9.4"
 dependencies:
   - name: op-scim-bridge
     version: ~2
