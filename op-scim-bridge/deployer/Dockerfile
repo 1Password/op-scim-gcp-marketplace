@@ -1,5 +1,5 @@
 ARG MARKETPLACE_TOOLS_TAG
-FROM marketplace.gcr.io/google/debian12 AS build
+FROM gcr.io/cloud-marketplace/google/debian12 AS build
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gettext
