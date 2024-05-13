@@ -62,9 +62,9 @@ Note that if there is a major version change of the bundled dependencies (i.e. t
 
 ## Building a New Image
 
-Using the makefile, one can create a push a new image to the Google Container Registry (GCR). To do so, one must declare environment variables:
+Using the makefile, one can create a push a new image to the Google Artifacts Registry (AR). To do so, one must declare environment variables:
 
-- `REGISTRY` - the Google Cloud Registry you are building for
+- `REGISTRY` - the Google Artifacts Registry you are building for
 - `TAG` - private tag/version. Can be useful for testing, but this should mirror
 the `appVersion` of the [op-scim-bridge-mp](./op-scim-bridge/chart/op-scim-bridge-mp/Chart.yaml) chart when creating a release.
 
@@ -87,7 +87,7 @@ REGISTRY="YOUR_REGISTRY" TAG=test-vendoring make app/build
 
 A pre-requisite to using `mpdev` is an existing `kubectl` installation with access to your GCP Kubernetes cluster.
 
-Any reference to `--deployer=gcr.op/op-scim-bridge/op-scim-bridge/deployer:TAG` is referencing the constructed docker image. If not present locally, this will be pulled from the Google Container Registry.
+Any reference to `gcr.io/op-scim-bridge/op-scim-bridge/deployer:TAG` is referencing the constructed docker image. If not present locally, this will be pulled from the Google Artifacts Registry.
 
 Tags are updated regularly and may vary. The `latest` tag is not always updated, so be sure to check dates when pulling. For illustrative purposes, these examples will use the `latest` tag.
 
