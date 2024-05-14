@@ -87,7 +87,7 @@ REGISTRY="YOUR_REGISTRY" TAG=test-vendoring make app/build
 
 A pre-requisite to using `mpdev` is an existing `kubectl` installation with access to your GCP Kubernetes cluster.
 
-Any reference to `gcr.io/op-scim-bridge/op-scim-bridge/deployer:TAG` is referencing the constructed docker image. If not present locally, this will be pulled from the Google Artifacts Registry.
+Any reference to `--deployer=gcr.io/op-scim-bridge/op-scim-bridge/deployer:TAG` is referencing the constructed docker image. If not present locally, this will be pulled from the Google Artifacts Registry.
 
 Tags are updated regularly and may vary. The `latest` tag is not always updated, so be sure to check dates when pulling. For illustrative purposes, these examples will use the `latest` tag.
 
