@@ -6,6 +6,7 @@ The Helm chart uses the [1Password/op-scim-helm](https://github.com/1Password/op
 on the Google Cloud Platform.
 
 To work with this deployment bundle, you will need to have the following tools installed:
+
 - [Helm](https://helm.sh/docs/intro/install/)
 - `mpdev` development tool from Google. Installation and usage instructions are detailed below.
 
@@ -57,6 +58,7 @@ See [Updating the SCIM bridge version](./op-scim-bridge/chart/op-scim-bridge-mp/
 Next, ensure the `publishedVersion` in [schema.yaml](./op-scim-bridge/schema.yaml) matches the `appVersion` in [Chart.yaml](./op-scim-bridge/chart/op-scim-bridge-mp/Chart.yaml), and that they both match the SCIM bridge docker image version we're updating to.
 
 Note that if there is a major version change of the bundled dependencies (i.e. the SCIM bridge or bitnami/redis), then we should also update the major version number of the following corresponding variables in the [op-scim-bridge/push-dep-image-tags.sh](op-scim-bridge/push-dep-image-tags.sh) script:
+
 - `OP_SCIM_BRIDGE_HELM_VERSION`
 - `BITNAMI_REDIS_HELM_VERSION`
 
@@ -66,13 +68,12 @@ Using the makefile, one can create a push a new image to the Google Artifacts Re
 
 - `REGISTRY` - the Google Artifacts Registry you are building for
 - `TAG` - private tag/version. Can be useful for testing, but this should mirror
-the `appVersion` of the [op-scim-bridge-mp](./op-scim-bridge/chart/op-scim-bridge-mp/Chart.yaml) chart when creating a release.
+  the `appVersion` of the [op-scim-bridge-mp](./op-scim-bridge/chart/op-scim-bridge-mp/Chart.yaml) chart when creating a release.
 
-
-To build a release build with version 2.9.5:
+To build a release build with version 2.9.6:
 
 ```bash
-REGISTRY="YOUR_REGISTRY" TAG=2.9.5 make app/build
+REGISTRY="YOUR_REGISTRY" TAG=2.9.6 make app/build
 ```
 
 Alternatively, to build a testing build, you can specify a testing tag:
@@ -110,6 +111,7 @@ You can validate your installation by running `mpdev doctor`.
 It is possible to use `mpdev` to install our application on your Kubernetes cluster on GCP. This allows you to test our application outside of the marketplace.
 
 As defined in [schema.yaml](./op-scim-bridge/schema.yaml) our application requires the following arguments:
+
 - `name`
 - `namespace`
 - `accountDomain`
@@ -135,7 +137,7 @@ mpdev verify --deployer=gcr.io/op-scim-bridge/op-scim-bridge/deployer:latest
 Or by using the Make command (from path `./op-scim-bridge`):
 
 ```bash
-TAG=2.9.5 make app/test
+TAG=2.9.6 make app/test
 ```
 
 The output is very long and rather hard to read, but all the components of what is happening are in there. Near the end you should see our simple `/ping` curl verification test happen.
