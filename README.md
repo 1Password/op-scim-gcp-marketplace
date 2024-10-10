@@ -70,10 +70,10 @@ Using the makefile, one can create a push a new image to the Google Artifacts Re
 - `TAG` - private tag/version. Can be useful for testing, but this should mirror
   the `appVersion` of the [op-scim-bridge-mp](./op-scim-bridge/chart/op-scim-bridge-mp/Chart.yaml) chart when creating a release.
 
-To build a release build with version 2.9.6:
+To build a release build with version 2.9.7:
 
 ```bash
-REGISTRY="YOUR_REGISTRY" TAG=2.9.6 make app/build
+REGISTRY="YOUR_REGISTRY" TAG=2.9.7 make app/build
 ```
 
 Alternatively, to build a testing build, you can specify a testing tag:
@@ -137,7 +137,7 @@ mpdev verify --deployer=gcr.io/op-scim-bridge/op-scim-bridge/deployer:latest
 Or by using the Make command (from path `./op-scim-bridge`):
 
 ```bash
-TAG=2.9.6 make app/test
+TAG=2.9.7 make app/test
 ```
 
 The output is very long and rather hard to read, but all the components of what is happening are in there. Near the end you should see our simple `/ping` curl verification test happen.
