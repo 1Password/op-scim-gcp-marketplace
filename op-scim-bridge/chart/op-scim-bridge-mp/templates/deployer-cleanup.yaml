@@ -57,7 +57,7 @@ spec:
           serviceAccountName: "{{ .Values.name }}-cleanup-sa"
           containers:
           - name: kubectl-runner
-            image: bitnami/kubectl
+            image: bitnamisecure/kubectl
             volumeMounts:
             - name: config-volume
               mountPath: /cleanup
